@@ -1,0 +1,1122 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <base target="_top" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        color: #2c3e50;
+        background: #faf9f7;
+        line-height: 1.5;
+      }
+      .topbar {
+        background: #1b4f8a;
+        padding: 12px 14px 10px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      .topbar-title {
+        font-size: 13px;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 8px;
+      }
+      .nav {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+      }
+      .nav-btn {
+        font-size: 10px;
+        padding: 3px 8px;
+        border-radius: 99px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: rgba(255, 255, 255, 0.75);
+        cursor: pointer;
+        background: transparent;
+        transition: all 0.15s;
+        font-family: Arial, sans-serif;
+      }
+      .nav-btn:hover,
+      .nav-btn.active {
+        background: white;
+        color: #1b4f8a;
+        border-color: white;
+      }
+      .section {
+        display: none;
+        padding: 14px;
+      }
+      .section.active {
+        display: block;
+      }
+      .acc-item {
+        margin-bottom: 6px;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #e4e2db;
+      }
+      .acc-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 9px 12px;
+        background: white;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: bold;
+        color: #2c3e50;
+        user-select: none;
+        transition: background 0.15s;
+      }
+      .acc-head:hover {
+        background: #f5f8fd;
+      }
+      .acc-head.open {
+        background: #ebf2fa;
+        color: #1b4f8a;
+      }
+      .acc-arrow {
+        font-size: 10px;
+        transition: transform 0.2s;
+        color: #7f8c8d;
+      }
+      .acc-head.open .acc-arrow {
+        transform: rotate(180deg);
+        color: #1b4f8a;
+      }
+      .acc-body {
+        display: none;
+        padding: 10px 12px 12px;
+        background: white;
+        border-top: 1px solid #e4e2db;
+      }
+      .acc-body.open {
+        display: block;
+      }
+      h5 {
+        font-size: 11px;
+        color: #1b4f8a;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin: 14px 0 8px;
+      }
+      h5:first-child {
+        margin-top: 0;
+      }
+      p {
+        font-size: 11px;
+        color: #5d6d7e;
+        margin-bottom: 8px;
+        line-height: 1.5;
+      }
+      p:last-child {
+        margin-bottom: 0;
+      }
+      .col-block {
+        margin-bottom: 10px;
+      }
+      .col-block:last-child {
+        margin-bottom: 0;
+      }
+      .col-name {
+        font-weight: bold;
+        font-size: 11px;
+        color: #2c3e50;
+        margin-bottom: 2px;
+      }
+      .col-desc {
+        font-size: 11px;
+        color: #7f8c8d;
+        line-height: 1.4;
+      }
+      .col-note {
+        font-size: 10px;
+        color: #2e86c1;
+        font-style: italic;
+        margin-top: 3px;
+      }
+      .status-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      .badge {
+        font-size: 10px;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-weight: bold;
+        white-space: nowrap;
+        flex-shrink: 0;
+        margin-top: 1px;
+        font-family: monospace;
+      }
+      .b-new {
+        background: #f1efe8;
+        color: #444441;
+        border: 1px solid #d3d1c7;
+      }
+      .b-request {
+        background: #faeeda;
+        color: #633806;
+        border: 1px solid #fac775;
+      }
+      .b-sent {
+        background: #ddeeff;
+        color: #0a4a90;
+        border: 1px solid #9dc4f0;
+      }
+      .b-created {
+        background: #eaf3de;
+        color: #27500a;
+        border: 1px solid #c0dd97;
+      }
+      .b-active {
+        background: #1d9e75;
+        color: white;
+        border: 1px solid #0f6e56;
+      }
+      .b-active {
+        background: #1d9e75;
+        color: white;
+        border: 1px solid #0f6e56;
+      }
+      .b-onb {
+        background: #faeeda;
+        color: #633806;
+        border: 1px solid #fac775;
+      }
+      .b-not-activated {
+        background: #fde8e8;
+        color: #9c1c1c;
+        border: 1px solid #f5a0a0;
+      }
+      .b-— {
+        background: #f1efe8;
+        color: #444441;
+        border: 1px solid #d3d1c7;
+      }
+      .group-row {
+        display: flex;
+        flex-direction: column;
+        padding: 7px 0;
+        border-bottom: 1px solid #f0efec;
+      }
+      .group-row:last-child {
+        border-bottom: none;
+      }
+      .group-name {
+        font-weight: bold;
+        font-size: 11px;
+        color: #1b4f8a;
+      }
+      .group-email {
+        color: #7f8c8d;
+        font-size: 10px;
+        margin-top: 1px;
+      }
+      .bar-demo {
+        background: #f0f0ee;
+        border-radius: 6px;
+        padding: 8px 10px;
+        margin-bottom: 8px;
+      }
+      .bar-label {
+        font-size: 10px;
+        color: #7f8c8d;
+        margin-bottom: 3px;
+      }
+      .bar-track {
+        background: #e4e2db;
+        border-radius: 99px;
+        height: 6px;
+        overflow: hidden;
+        margin-bottom: 3px;
+      }
+      .bar-fill {
+        height: 100%;
+        border-radius: 99px;
+      }
+      .bar-green {
+        background: #1d9e75;
+      }
+      .bar-amber {
+        background: #ef9f27;
+      }
+      .bar-status {
+        font-size: 10px;
+        font-weight: bold;
+      }
+      .bar-onb {
+        color: #854f0b;
+      }
+      .bar-active {
+        color: #0f6e56;
+      }
+      .cmd-row {
+        margin-bottom: 10px;
+        padding: 8px;
+        background: #f5f8fd;
+        border-radius: 6px;
+        border: 1px solid #e4e2db;
+      }
+      .cmd-name {
+        font-weight: bold;
+        font-size: 11px;
+        color: #1b4f8a;
+        margin-bottom: 2px;
+      }
+      .cmd-desc {
+        font-size: 11px;
+        color: #7f8c8d;
+        line-height: 1.4;
+      }
+      .step {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      .step-num {
+        min-width: 20px;
+        height: 20px;
+        background: #ebf2fa;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 20px;
+        font-weight: bold;
+        color: #1b4f8a;
+        font-size: 10px;
+        flex-shrink: 0;
+      }
+      .step-title {
+        font-weight: bold;
+        font-size: 11px;
+        margin-bottom: 2px;
+        color: #2c3e50;
+      }
+      .step-desc {
+        font-size: 11px;
+        color: #7f8c8d;
+        line-height: 1.4;
+      }
+      .warn {
+        background: #fef9e7;
+        border-left: 2px solid #d35400;
+        padding: 8px 10px;
+        border-radius: 0 6px 6px 0;
+        font-size: 11px;
+        color: #6b3a00;
+        margin-top: 10px;
+        line-height: 1.4;
+      }
+      .tip {
+        background: #ebf2fa;
+        border-left: 2px solid #2e86c1;
+        padding: 8px 10px;
+        border-radius: 0 6px 6px 0;
+        font-size: 11px;
+        color: #0c447c;
+        margin-top: 10px;
+        line-height: 1.4;
+      }
+      .ok {
+        background: #e1f5ee;
+        border-left: 2px solid #0f6e56;
+        padding: 8px 10px;
+        border-radius: 0 6px 6px 0;
+        font-size: 11px;
+        color: #085041;
+        margin-top: 10px;
+        line-height: 1.4;
+      }
+      .note-grey {
+        background: #f1efe8;
+        border-left: 2px solid #b4b2a9;
+        padding: 8px 10px;
+        border-radius: 0 6px 6px 0;
+        font-size: 11px;
+        color: #5f5e5a;
+        margin-top: 10px;
+        line-height: 1.4;
+      }
+      .divider {
+        height: 1px;
+        background: #e4e2db;
+        margin: 12px 0;
+      }
+      .hint-bar {
+        background: #f5f8fd;
+        border: 1px solid #e4e2db;
+        border-radius: 6px;
+        padding: 8px 10px;
+        margin-bottom: 10px;
+        font-size: 11px;
+        color: #1b4f8a;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="topbar-title">About this file</div>
+      <div class="nav">
+        <button class="nav-btn active" onclick="show('overview', this)">
+          Overview
+        </button>
+        <button class="nav-btn" onclick="show('columns', this)">Columns</button>
+        <button class="nav-btn" onclick="show('statuses', this)">
+          Statuses
+        </button>
+        <button class="nav-btn" onclick="show('groups', this)">Groups</button>
+        <button class="nav-btn" onclick="show('tools', this)">
+          WIT Operations
+        </button>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div id="overview" class="section active">
+      <div class="hint-bar">
+        Click any section to expand it. Use the tabs above to switch topics.
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head open" onclick="toggle(this)">
+          What is this file <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body open">
+          <p>
+            The central member roster for WIT Canada. Tracks everyone on the
+            team — their info, onboarding progress, Google Group memberships,
+            and tool access.
+          </p>
+          <div class="divider"></div>
+          <h5>Working sheets</h5>
+          <div class="col-block">
+            <div class="col-name">WIT_Members</div>
+            <div class="col-desc">
+              Main roster — internal Canada team. One row per member. All
+              onboarding tracking lives here.
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">WIT_External</div>
+            <div class="col-desc">
+              Global WIT members with access to specific Canadian groups. No
+              onboarding flow — group access tracking only.
+            </div>
+          </div>
+          <div class="divider"></div>
+          <h5>Auto-generated report sheets</h5>
+          <div class="col-block">
+            <div class="col-name">Report_Groups</div>
+            <div class="col-desc">
+              Snapshot of every Google Group and its members. Rebuilt on demand
+              — never edit manually.
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">Report_Email_Requests</div>
+            <div class="col-desc">
+              Members with a pending WIT email creation request (status:
+              requested, sent, or created).
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">Report_Photos&amp;Bios</div>
+            <div class="col-desc">
+              Members missing a profile photo or bio in the shared Drive
+              folders, grouped by region.
+            </div>
+          </div>
+          <div class="note-grey">
+            The 2025 tab is archived — historical data only.
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">
+          Who does what <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="step">
+            <div class="step-num">L</div>
+            <div>
+              <div class="step-title">Team Lead</div>
+              <div class="step-desc">
+                Adds new member to the sheet, ticks Google Groups, sets Email
+                Status to <strong>requested</strong>.
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">O</div>
+            <div>
+              <div class="step-title">Ops Lead</div>
+              <div class="step-desc">
+                Assigns group access, checks Intro Sent — onboarding welcome email sends automatically. Tracks completion and sets Member Status = active.
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">M</div>
+            <div>
+              <div class="step-title">Member</div>
+              <div class="step-desc">
+                Activates email, follows the Welcome Guide checklist
+                independently.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">
+          Row layout <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="col-block">
+            <div class="col-name">Row 1 — Section banners</div>
+            <div class="col-desc">
+              Color-coded labels: Member Core, Personal Info, Google Groups,
+              Onboarding Actions, Tools / Accounts Access. Sections marked with
+              <strong>▶</strong> are collapsible — click the arrow to expand
+              hidden columns.
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">Row 2 — Column names</div>
+            <div class="col-desc">
+              The actual column headers. Scripts find columns by these names —
+              don't rename without telling the Ops Lead.
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">Row 3 — Group emails</div>
+            <div class="col-desc">
+              In the Google Groups section only: the full group address for each
+              column.
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">Row 4+ — Member data</div>
+            <div class="col-desc">
+              One row per member. Scripts start reading from row 4.
+            </div>
+          </div>
+          <div class="tip">
+            Hidden columns are collapsed behind the <strong>▶</strong> arrows.
+            Click them to expand Personal Info and other sections.
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">
+          Report_Groups sheet <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <p>
+            A read-only snapshot of every Google Group — who's in it and their
+            role. Pulls data from both WIT_Members and WIT_External.
+          </p>
+          <p>
+            Members from WIT_External appear in
+            <em style="color: #80868b">italic grey</em> to distinguish them from
+            internal members.
+          </p>
+          <p>
+            Rows are collapsible — use the group indicators on the left to fold
+            and unfold each list.
+          </p>
+          <div class="tip">
+            Refresh via
+            <strong>WIT Operations → Refresh groups snapshot</strong>. The sheet
+            is deleted and recreated each time — never edit it manually.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMNS -->
+    <div id="columns" class="section">
+      <div class="acc-item">
+        <div class="acc-head open" onclick="toggle(this)">
+          Member Core <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body open">
+          <div class="col-block">
+            <div class="col-name">First name / Last name</div>
+            <div class="col-desc">
+              Full name. Used in email requests, groups report, and photo/bio
+              matching.
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">Role</div>
+            <div class="col-desc">
+              Their title in the org. Appears in the groups report and email
+              requests.
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">Location</div>
+            <div class="col-desc">City, Province (e.g. Vancouver, BC).</div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">WIT Email</div>
+            <div class="col-desc">
+              Their @women-in-tech.org address. Filled in once the Ops Lead
+              creates it.
+            </div>
+            <div class="col-note">
+              Leave blank until created — the group sync skips rows without a
+              WIT email.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">
+          Personal Info (hidden) <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <p>
+            This section is collapsed by default. Click the
+            <strong>▶</strong> arrow in the column header area to expand it.
+          </p>
+          <div class="col-block">
+            <div class="col-name">Personal Email</div>
+            <div class="col-desc">
+              Used to send the activation link and Welcome Guide before the
+              member has a WIT address. Required for the email request flow.
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">Phone (WhatsApp)</div>
+            <div class="col-desc">Optional. For direct contact if needed.</div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">LinkedIn URL</div>
+            <div class="col-desc">Personal LinkedIn profile URL.</div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">Birthday</div>
+            <div class="col-desc">
+              Used for team celebrations. Not shared publicly.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">
+          Contract Status <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="col-block">
+            <div class="col-name">Contract status</div>
+            <div class="col-desc">
+              Free-text field. Set to <strong>signed</strong> once the volunteer
+              agreement is received. Leave blank until then.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">
+          Google Groups columns <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <p>
+            One column per Google Group. A checked box means this member should
+            belong to that group. The sync reads these and assigns access via
+            Google Admin.
+          </p>
+          <p>Row 3 shows the full group email for each column.</p>
+          <div class="warn">
+            Never add members to groups manually in Google Admin — it won't be
+            reflected here and breaks the audit trail.
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">
+          Email Request Status <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <p>
+            Dropdown that drives the WIT email creation flow. The Lead sets
+            <strong>requested</strong> — the Ops Lead updates the rest.
+          </p>
+          <p>
+            See the <strong>Statuses</strong> tab for all values and what each
+            means.
+          </p>
+          <div class="col-note" style="margin-top: 4px">
+            Located between the Google Groups and Onboarding Actions sections.
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">
+          Onboarding Actions <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <p>
+            Checkboxes that track progress through onboarding. The Onboarding
+            Status formula reads these to compute the progress bar.
+          </p>
+          <div class="col-block">
+            <div class="col-name">Add to groups</div>
+            <div class="col-desc">
+              Set automatically when group access is assigned via the script.
+              Don't tick manually.
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">Drive access</div>
+            <div class="col-desc">
+              Tick to confirm the member can access the Shared Drive.
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">Intro sent</div>
+            <div class="col-desc">
+              Ops Lead ticks this — onboarding welcome email and Onboarding
+              Guide send automatically.
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">Photo</div>
+            <div class="col-desc">
+              Updated automatically by the photos & bios sync. True when a
+              profile photo is found in the shared Drive folder.
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">Bio</div>
+            <div class="col-desc">
+              Updated automatically by the photos & bios sync. True when a bio
+              document is found in the shared Drive folder.
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">Onboarding Status</div>
+            <div class="col-desc">
+              Formula-driven progress bar (e.g. ■■■■□□ 60%). Updates
+              automatically — do not edit.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">
+          Member Status <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="col-block">
+            <div class="col-name">Member Status</div>
+            <div class="col-desc">
+              Overall standing of the member. See the
+              <strong>Statuses</strong> tab for values. The photos & bios sync
+              only processes rows where this is <strong>active</strong> or
+              <strong>onboarding</strong>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">
+          Tools / Accounts Access <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <p>
+            Tracks which platforms each member has access to. Ticked manually —
+            informational only, no automation.
+          </p>
+          <div class="divider"></div>
+          <h5>Social</h5>
+          <div class="col-block">
+            <div class="col-name">LinkedIn · Instagram · YouTube · TikTok</div>
+            <div class="col-desc">
+              Following or contributing to WIT Canada accounts.
+            </div>
+          </div>
+          <div class="divider"></div>
+          <h5>Work tools</h5>
+          <div class="col-block">
+            <div class="col-name">Google Workspace</div>
+            <div class="col-desc">
+              Has an active @women-in-tech.org account with Shared Drive access.
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">WIT-h</div>
+            <div class="col-desc">
+              Registered on the global WIT Hub. Part of standard onboarding.
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">Canva</div>
+            <div class="col-desc">
+              Added to the WIT Canada Canva team. Relevant for MarkCom and
+              design contributors.
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">Zoom · Notion</div>
+            <div class="col-desc">
+              Access to WIT Canada accounts where applicable.
+            </div>
+          </div>
+          <div class="divider"></div>
+          <h5>Events</h5>
+          <div class="col-block">
+            <div class="col-name">Luma · Eventbrite</div>
+            <div class="col-desc">
+              Access to WIT Canada event management accounts.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATUSES -->
+    <div id="statuses" class="section">
+
+      <div class="acc-item">
+        <div class="acc-head open" onclick="toggle(this)">Contract Status <span class="acc-arrow">▼</span></div>
+        <div class="acc-body open">
+          <div class="status-row">
+            <span class="badge b-new">not sent</span>
+            <span class="col-desc">Default. No contract action taken yet.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-request">sent</span>
+            <span class="col-desc">Contract has been sent. Waiting for signature.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-created">signed</span>
+            <span class="col-desc">Contract has been signed. Member is confirmed.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">Email Status <span class="acc-arrow">▼</span></div>
+        <div class="acc-body">
+          <p>Controls the WIT email creation flow. The Lead sets <strong>requested</strong> — the Ops Lead updates the rest.</p>
+          <div class="divider"></div>
+          <div class="status-row">
+            <span class="badge b-new">—</span>
+            <span class="col-desc">Default when the row is created. No action taken yet.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-request">requested</span>
+            <span class="col-desc">Lead sets this. Queues the member for the next Monday batch report sent to the Ops Lead.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-sent">sent</span>
+            <span class="col-desc">The weekly batch report was sent to the Ops Lead. Waiting for WIT account creation.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-created">created</span>
+            <span class="col-desc">Ops Lead created the WIT email and sent the activation link to the member.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-not-activated">not activated</span>
+            <span class="col-desc">Email created but activation pending. Follow-up required.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-active">active</span>
+            <span class="col-desc">Member activated their WIT email. Setup complete.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">Add to Groups <span class="acc-arrow">▼</span></div>
+        <div class="acc-body">
+          <p>The Lead sets <strong>requested</strong>. Ops updates the rest.</p>
+          <div class="divider"></div>
+          <div class="status-row">
+            <span class="badge b-new">—</span>
+            <span class="col-desc">Default. No action taken yet.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-request">requested</span>
+            <span class="col-desc">Lead ticked the required groups and set this status. Ops will assign access.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-active">added</span>
+            <span class="col-desc">Member added to all required Google Groups. Drive and Chat access granted automatically.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">Member Status <span class="acc-arrow">▼</span></div>
+        <div class="acc-body">
+          <div class="status-row">
+            <span class="badge b-new">—</span>
+            <span class="col-desc">Default. Member added but onboarding not yet started. Excluded from photo/bio sync.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-onb">onboarding</span>
+            <span class="col-desc">Onboarding instructions sent. Member is working through the checklist.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-active">active</span>
+            <span class="col-desc">Fully onboarded and active on the team.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- GROUPS -->
+    <div id="groups" class="section">
+      <div class="acc-item">
+        <div class="acc-head open" onclick="toggle(this)">
+          How group access works <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body open">
+          <p>
+            Google Groups are how we control access. Being in a group gives the
+            member email, Shared Drive access, and Google Chat membership — all
+            from one place.
+          </p>
+          <p>
+            Groups are also used for email distribution. When an email is sent
+            to a group address, all members of that group receive the message.
+          </p>
+          <div class="col-block">
+            <div class="col-name">Canada Team</div>
+            <div class="col-desc">
+              Every internal member. Gives access to the WIT Canada General
+              Shared Drive.
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">Leadership</div>
+            <div class="col-desc">
+              Leads and heads. Gives access to the Leadership Shared Drive.
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">All other groups</div>
+            <div class="col-desc">
+              Topic or region-based. Access scoped to that team's resources.
+            </div>
+          </div>
+          <div class="warn">
+            Always use Groups to grant access — never add someone to Drive or
+            Chat directly.
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">
+          Available groups <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="group-row">
+            <span class="group-name">WIT Canada Team</span
+            ><span class="group-email">canada-team@women-in-tech.org</span>
+          </div>
+          <div class="group-row">
+            <span class="group-name">WIT Canada Leadership</span
+            ><span class="group-email">canada-leadership@women-in-tech.org</span>
+          </div>
+          <div class="group-row">
+            <span class="group-name">WIT Canada Marketing</span
+            ><span class="group-email">canada-marketing@women-in-tech.org</span>
+          </div>
+          <div class="group-row">
+            <span class="group-name">WIT Canada Partnerships</span
+            ><span class="group-email">canada-partnerships@women-in-tech.org</span>
+          </div>
+          <div class="group-row">
+            <span class="group-name">WIT Canada Mentorship</span
+            ><span class="group-email">canada-mentorship@women-in-tech.org</span>
+          </div>
+          <div class="group-row">
+            <span class="group-name">WIT Canada Region Heads</span
+            ><span class="group-email">canada-region-heads@women-in-tech.org</span>
+          </div>
+          <div class="group-row">
+            <span class="group-name">WIT Canada Alberta</span
+            ><span class="group-email">canada-alberta@women-in-tech.org</span>
+          </div>
+          <div class="group-row">
+            <span class="group-name">WIT Canada BC</span
+            ><span class="group-email">canada-bc@women-in-tech.org</span>
+          </div>
+          <div class="group-row">
+            <span class="group-name">WIT Canada Maritimes</span
+            ><span class="group-email">canada-maritimes@women-in-tech.org</span>
+          </div>
+          <div class="group-row">
+            <span class="group-name">WIT Canada Ontario</span
+            ><span class="group-email">canada-ontario@women-in-tech.org</span>
+          </div>
+          <div class="group-row">
+            <span class="group-name">WIT Canada Quebec</span
+            ><span class="group-email">canada-quebec@women-in-tech.org</span>
+          </div>
+          <div class="group-row">
+            <span class="group-name">WIT NA Awards</span
+            ><span class="group-email">na-awards@women-in-tech.org</span>
+          </div>
+          <div class="group-row">
+            <span class="group-name">WIT NA Awards — MarCom</span
+            ><span class="group-email">na-awards-marcom@women-in-tech.org</span>
+          </div>
+          <div class="tip">
+            Need access to a specific group? Send a request to the Ops Lead —
+            they will add you.
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">
+          External members <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <p>
+            Global WIT members with access to specific Canadian groups — usually
+            via NA Awards or partnerships. Tracked in WIT_External.
+          </p>
+          <p>
+            No onboarding flow. Manage their group access the same way — tick
+            the columns, then run the sync.
+          </p>
+          <p>
+            In the <strong>Report_Groups</strong> sheet, external members appear
+            in <em style="color: #80868b">italic grey</em> to distinguish them
+            from internal members.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- WIT OPERATIONS -->
+    <div id="tools" class="section">
+      <p style="margin-bottom: 12px; font-size: 11px; color: #5d6d7e">
+        These are the actions in the <strong>WIT Operations</strong> menu at the
+        top of the screen.
+      </p>
+
+      <div class="acc-item">
+        <div class="acc-head open" onclick="toggle(this)">
+          Guides <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body open">
+          <div class="cmd-row">
+            <div class="cmd-name">About this file</div>
+            <div class="cmd-desc">
+              Full reference for columns, statuses, groups, and how the sheet
+              works. (You're reading it.)
+            </div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-name">Member onboarding guide</div>
+            <div class="cmd-desc">
+              Step-by-step instructions for leads — what to fill in when a new
+              member joins.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">
+          Reports <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="cmd-row">
+            <div class="cmd-name">Refresh email requests report</div>
+            <div class="cmd-desc">
+              Rebuilds the <strong>Report_Email_Requests</strong> sheet — all
+              members with a pending WIT email request (status: requested, sent,
+              or created).
+            </div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-name">Refresh photos &amp; bios report</div>
+            <div class="cmd-desc">
+              Scans the Photos and Bio folders in Drive, updates the Photo
+              and Bio columns for all active/onboarding members, then opens
+              <strong>Report_Photos&amp;Bios</strong> with the results by
+              region.
+            </div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-name">Refresh groups snapshot</div>
+            <div class="cmd-desc">
+              Rebuilds <strong>Report_Groups</strong> — a clean list of every
+              group and its members from both WIT_Members and WIT_External.
+            </div>
+          </div>
+          <div class="note-grey">
+            All three reports open automatically after refreshing.
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">Group access <span class="acc-arrow">▼</span></div>
+        <div class="acc-body">
+          <div class="cmd-row">
+            <div class="cmd-name">Add member to groups</div>
+            <div class="cmd-desc">Assigns group access for the row you currently have selected. Use when onboarding one person.</div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-name">Add all members to groups</div>
+            <div class="cmd-desc">Runs across every row in the sheet. Use after adding several new people at once.</div>
+          </div>
+          <div class="ok">When all assignments succeed → <strong>Add to groups</strong> is ticked automatically.</div>
+          <div class="note-grey">Requires Google Workspace Admin permissions (Groups Admin role). If you see a permission error — contact the Ops Lead, they will run it for you.</div>
+        </div>
+      </div> -->
+    </div>
+
+    <script>
+      function show(id, btn) {
+        document
+          .querySelectorAll(".section")
+          .forEach((s) => s.classList.remove("active"));
+        document
+          .querySelectorAll(".nav-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+        btn.classList.add("active");
+      }
+      function toggle(head) {
+        const body = head.nextElementSibling;
+        const open = head.classList.contains("open");
+        head.classList.toggle("open", !open);
+        body.classList.toggle("open", !open);
+      }
+    </script>
+  </body>
+</html>

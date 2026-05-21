@@ -1,0 +1,642 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <base target="_top" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        color: #2c3e50;
+        background: #faf9f7;
+        line-height: 1.5;
+      }
+      .topbar {
+        background: #1b4f8a;
+        padding: 12px 14px 10px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      .topbar-title {
+        font-size: 13px;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 8px;
+      }
+      .nav {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+      }
+      .nav-btn {
+        font-size: 10px;
+        padding: 3px 8px;
+        border-radius: 99px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: rgba(255, 255, 255, 0.75);
+        cursor: pointer;
+        background: transparent;
+        transition: all 0.15s;
+        font-family: Arial, sans-serif;
+      }
+      .nav-btn:hover,
+      .nav-btn.active {
+        background: white;
+        color: #1b4f8a;
+        border-color: white;
+      }
+      .section {
+        display: none;
+        padding: 14px;
+      }
+      .section.active {
+        display: block;
+      }
+      .acc-item {
+        margin-bottom: 6px;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #e4e2db;
+      }
+      .acc-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 9px 12px;
+        background: white;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: bold;
+        color: #2c3e50;
+        user-select: none;
+        transition: background 0.15s;
+      }
+      .acc-head:hover {
+        background: #f5f8fd;
+      }
+      .acc-head.open {
+        background: #ebf2fa;
+        color: #1b4f8a;
+      }
+      .acc-arrow {
+        font-size: 10px;
+        transition: transform 0.2s;
+        color: #7f8c8d;
+      }
+      .acc-head.open .acc-arrow {
+        transform: rotate(180deg);
+        color: #1b4f8a;
+      }
+      .acc-body {
+        display: none;
+        padding: 10px 12px 12px;
+        background: white;
+        border-top: 1px solid #e4e2db;
+      }
+      .acc-body.open {
+        display: block;
+      }
+      h5 {
+        font-size: 11px;
+        color: #1b4f8a;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin: 14px 0 8px;
+      }
+      h5:first-child {
+        margin-top: 0;
+      }
+      p {
+        font-size: 11px;
+        color: #5d6d7e;
+        margin-bottom: 8px;
+        line-height: 1.5;
+      }
+      p:last-child {
+        margin-bottom: 0;
+      }
+      .col-block {
+        margin-bottom: 10px;
+      }
+      .col-block:last-child {
+        margin-bottom: 0;
+      }
+      .col-name {
+        font-weight: bold;
+        font-size: 11px;
+        color: #2c3e50;
+        margin-bottom: 2px;
+      }
+      .col-desc {
+        font-size: 11px;
+        color: #7f8c8d;
+        line-height: 1.4;
+      }
+      .col-note {
+        font-size: 10px;
+        color: #2e86c1;
+        font-style: italic;
+        margin-top: 3px;
+      }
+      .status-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      .status-row:last-child {
+        margin-bottom: 0;
+      }
+      .badge {
+        font-size: 10px;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-weight: bold;
+        white-space: nowrap;
+        flex-shrink: 0;
+        margin-top: 1px;
+        font-family: monospace;
+      }
+      .b-new {
+        background: #f1efe8;
+        color: #444441;
+        border: 1px solid #d3d1c7;
+      }
+      .b-request {
+        background: #faeeda;
+        color: #633806;
+        border: 1px solid #fac775;
+      }
+      .b-sent {
+        background: #ddeeff;
+        color: #0a4a90;
+        border: 1px solid #9dc4f0;
+      }
+      .b-created {
+        background: #eaf3de;
+        color: #27500a;
+        border: 1px solid #c0dd97;
+      }
+      .b-active {
+        background: #1d9e75;
+        color: white;
+        border: 1px solid #0f6e56;
+      }
+      .b-onb {
+        background: #faeeda;
+        color: #633806;
+        border: 1px solid #fac775;
+      }
+      .b-not-activated {
+        background: #fde8e8;
+        color: #9c1c1c;
+        border: 1px solid #f5a0a0;
+      }
+      .step {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      .step:last-child {
+        margin-bottom: 0;
+      }
+      .step-num {
+        min-width: 20px;
+        height: 20px;
+        background: #ebf2fa;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 20px;
+        font-weight: bold;
+        color: #1b4f8a;
+        font-size: 10px;
+        flex-shrink: 0;
+      }
+      .step-title {
+        font-weight: bold;
+        font-size: 11px;
+        margin-bottom: 2px;
+        color: #2c3e50;
+      }
+      .step-desc {
+        font-size: 11px;
+        color: #7f8c8d;
+        line-height: 1.4;
+      }
+      .auto-tag {
+        display: inline-block;
+        font-size: 9px;
+        font-weight: bold;
+        background: #ebf2fa;
+        color: #1b4f8a;
+        border-radius: 3px;
+        padding: 1px 5px;
+        margin-left: 4px;
+        vertical-align: middle;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .warn {
+        background: #fef9e7;
+        border-left: 2px solid #d35400;
+        padding: 8px 10px;
+        border-radius: 0 6px 6px 0;
+        font-size: 11px;
+        color: #6b3a00;
+        margin-top: 10px;
+        line-height: 1.4;
+      }
+      .tip {
+        background: #ebf2fa;
+        border-left: 2px solid #2e86c1;
+        padding: 8px 10px;
+        border-radius: 0 6px 6px 0;
+        font-size: 11px;
+        color: #0c447c;
+        margin-top: 10px;
+        line-height: 1.4;
+      }
+      .ok {
+        background: #e1f5ee;
+        border-left: 2px solid #0f6e56;
+        padding: 8px 10px;
+        border-radius: 0 6px 6px 0;
+        font-size: 11px;
+        color: #085041;
+        margin-top: 10px;
+        line-height: 1.4;
+      }
+      .note-grey {
+        background: #f1efe8;
+        border-left: 2px solid #b4b2a9;
+        padding: 8px 10px;
+        border-radius: 0 6px 6px 0;
+        font-size: 11px;
+        color: #5f5e5a;
+        margin-top: 10px;
+        line-height: 1.4;
+      }
+      .divider {
+        height: 1px;
+        background: #e4e2db;
+        margin: 12px 0;
+      }
+      .hint-bar {
+        background: #f5f8fd;
+        border: 1px solid #e4e2db;
+        border-radius: 6px;
+        padding: 8px 10px;
+        margin-bottom: 10px;
+        font-size: 11px;
+        color: #1b4f8a;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="topbar-title">New member onboarding — Lead guide</div>
+      <div class="nav">
+        <button class="nav-btn active" onclick="show('steps', this)">
+          Steps
+        </button>
+        <button class="nav-btn" onclick="show('statuses', this)">
+          Statuses
+        </button>
+        <button class="nav-btn" onclick="show('roles', this)">Roles</button>
+      </div>
+    </div>
+
+    <!-- STEPS -->
+    <div id="steps" class="section active">
+      <div class="hint-bar">
+        Everything a Lead needs to do — from first row to handing off to Ops.
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head open" onclick="toggle(this)">
+          Add the member <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body open">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div>
+              <div class="step-title">Add a new row in WIT_Members</div>
+              <div class="step-desc">
+                First name · Last name · Role · Location · Personal email
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div>
+              <div class="step-title">Send the contract</div>
+              <div class="step-desc">
+                Send manually, then set <strong>Contract Status = sent</strong>.
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div>
+              <div class="step-title">Member signs → upload &amp; confirm</div>
+              <div class="step-desc">
+                Upload the signed contract to the designated Drive folder. Set
+                <strong>Contract Status = signed</strong>.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head open" onclick="toggle(this)">
+          Request email &amp; access <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body open">
+          <div class="step">
+            <div class="step-num">4</div>
+            <div>
+              <div class="step-title">
+                Request WIT email <span class="auto-tag">auto</span>
+              </div>
+              <div class="step-desc">
+                Set <strong>Email Status = requested</strong>. <br /><br />The
+                system queues the member for the Monday batch email sent to
+                Admin (Global Team).
+              </div>
+            </div>
+          </div>
+          <div class="warn" style="margin-bottom: 10px">
+            Contract must be <strong>signed</strong> and uploaded before
+            requesting the email. The script will block you if it isn't.
+          </div>
+          <div class="step">
+            <div class="step-num">5</div>
+            <div>
+              <div class="step-title">Select groups &amp; request access</div>
+              <div class="step-desc">
+                Check all required Google Groups columns based on the member's
+                role and region. Then set
+                <strong>Add to Groups = requested</strong>.<br /><br />This is
+                where your work ends — Operations takes over from here.
+              </div>
+            </div>
+          </div>
+          <div class="tip">
+            <strong>What happens automatically:</strong> Every Monday at 7 AM, a
+            batch email is sent to Admin with all pending requests. Status flips
+            <strong>requested → sent</strong> automatically after the email sends.
+          </div>
+          <div class="ok" style="margin-top: 8px">
+            <strong>Ops takes over from here</strong> — assigns group access, checks
+            <strong>Intro Sent</strong> in the sheet and the onboarding welcome email
+            sends automatically. <span class="auto-tag">auto</span><br />Tracks
+            completion and sets <strong>Member Status = active</strong>.
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">
+          Definition of done <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <p>A member is fully onboarded when all of these are true:</p>
+          <div class="divider"></div>
+          <div class="col-block">
+            <div class="col-desc">✓ Contract signed &amp; uploaded</div>
+          </div>
+          <div class="col-block">
+            <div class="col-desc">✓ WIT email active</div>
+          </div>
+          <div class="col-block">
+            <div class="col-desc">✓ Added to Google Groups</div>
+          </div>
+          <div class="col-block">
+            <div class="col-desc">✓ Drive &amp; Google Chat access granted</div>
+          </div>
+          <div class="col-block">
+            <div class="col-desc">✓ Onboarding checklist complete</div>
+          </div>
+          <div class="ok">
+            <strong>Member Status = active</strong> — set by Ops when all steps
+            are done.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATUSES -->
+    <div id="statuses" class="section">
+
+      <div class="acc-item">
+        <div class="acc-head open" onclick="toggle(this)">Contract Status <span class="acc-arrow">▼</span></div>
+        <div class="acc-body open">
+          <div class="status-row">
+            <span class="badge b-new">not sent</span>
+            <span class="col-desc">Default. No contract action yet.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-request">sent</span>
+            <span class="col-desc">Contract sent to the member. Waiting for signature.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-created">signed</span>
+            <span class="col-desc">Signed contract uploaded to Drive. Member is confirmed.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">Email Status <span class="acc-arrow">▼</span></div>
+        <div class="acc-body">
+          <p>The Lead sets <strong>requested</strong>. Ops and Admin update the rest.</p>
+          <div class="divider"></div>
+          <div class="status-row">
+            <span class="badge b-new">—</span>
+            <span class="col-desc">Default. No action taken yet.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-request">requested</span>
+            <span class="col-desc">Lead sets this. Queues the member for the Monday batch email to Admin.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-sent">sent</span>
+            <span class="col-desc">Batch email sent to Admin. Waiting for WIT account creation.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-created">created</span>
+            <span class="col-desc">WIT email created. Ops will assign group access.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-not-activated">not activated</span>
+            <span class="col-desc">Email created but activation pending. Follow-up required.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-active">active</span>
+            <span class="col-desc">Member activated their WIT email. Setup complete.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">Add to Groups <span class="acc-arrow">▼</span></div>
+        <div class="acc-body">
+          <p>The Lead sets <strong>requested</strong>. Ops updates the rest.</p>
+          <div class="divider"></div>
+          <div class="status-row">
+            <span class="badge b-new">—</span>
+            <span class="col-desc">Default. No action taken yet.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-request">requested</span>
+            <span class="col-desc">Lead ticked the required groups and set this status. Ops will assign access.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-active">added</span>
+            <span class="col-desc">Member added to all required Google Groups. Drive and Chat access granted automatically.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">Member Status <span class="acc-arrow">▼</span></div>
+        <div class="acc-body">
+          <div class="status-row">
+            <span class="badge b-new">—</span>
+            <span class="col-desc">Default. Member added but onboarding not yet started.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-onb">onboarding</span>
+            <span class="col-desc">Onboarding instructions sent by Ops. Member is working through the checklist.</span>
+          </div>
+          <div class="status-row">
+            <span class="badge b-active">active</span>
+            <span class="col-desc">Fully onboarded. Set by Ops when all steps are complete.</span>
+          </div>
+          <div class="note-grey">Photos &amp; bios sync only runs for rows where Member Status is <strong>active</strong> or <strong>onboarding</strong>.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ROLES -->
+    <div id="roles" class="section">
+      <div class="acc-item">
+        <div class="acc-head open" onclick="toggle(this)">
+          Lead<span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body open">
+          <div class="col-block">
+            <div class="col-desc">Adds the member to the sheet</div>
+          </div>
+          <div class="col-block">
+            <div class="col-desc">Sends and tracks the contract</div>
+          </div>
+          <div class="col-block">
+            <div class="col-desc">
+              Requests WIT email by setting status to <strong>requested</strong>
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-desc">Ticks the required Google Groups columns</div>
+          </div>
+          <div class="col-block">
+            <div class="col-desc">
+              Sets <strong>Add to Groups = requested</strong> after ticking the required group columns
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">
+          Operations (Ops Lead) <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="col-block">
+            <div class="col-desc">
+              Coordinates WIT email creation with Admin
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-desc">
+              Grants access: Google Groups, Drive, Google Chat
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-desc">
+              Checks <strong>Intro Sent</strong> in the sheet — onboarding welcome email sends automatically <span class="auto-tag">auto</span>
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-desc">
+              Tracks onboarding completion — sets Member Status =
+              <strong>active</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">
+          Admin (Global Team) <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="col-block">
+            <div class="col-desc">
+              Creates the @women-in-tech.org email account in Google Admin
+            </div>
+          </div>
+          <div class="col-note" style="margin-top: 4px">
+            Notified via the automated Monday batch email sent by the system.
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">
+          Member <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="col-block">
+            <div class="col-desc">Signs the contract</div>
+          </div>
+          <div class="col-block">
+            <div class="col-desc">Activates their WIT email</div>
+          </div>
+          <div class="col-block">
+            <div class="col-desc">
+              Completes the onboarding checklist independently
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function show(id, btn) {
+        document
+          .querySelectorAll(".section")
+          .forEach((s) => s.classList.remove("active"));
+        document
+          .querySelectorAll(".nav-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+        btn.classList.add("active");
+      }
+      function toggle(head) {
+        const body = head.nextElementSibling;
+        const open = head.classList.contains("open");
+        head.classList.toggle("open", !open);
+        body.classList.toggle("open", !open);
+      }
+    </script>
+  </body>
+</html>
