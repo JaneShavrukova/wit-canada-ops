@@ -6,56 +6,61 @@
   <title>Email Signature Generator — WIT Canada</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --navy:   #030ba6;
-      --teal:   #0f6e56;
-      --bg:     #faf9f7;
-      --card:   #ffffff;
-      --border: #e4e2db;
-      --muted:  #6b7280;
-      --radius: 10px;
+      --blue:    #1b4f8a;
+      --blue-lt: #ebf2fa;
+      --blue-md: #2e86c1;
+      --teal:    #0f6e56;
+      --teal-lt: #e1f5ee;
+      --bg:      #faf9f7;
+      --white:   #ffffff;
+      --border:  #e4e2db;
+      --text:    #1a1a1a;
+      --muted:   #6b6b6b;
+      --radius:  10px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'DM Sans', Arial, sans-serif;
+      font-family: 'DM Sans', sans-serif;
       background: var(--bg);
-      color: #111827;
+      color: var(--text);
       min-height: 100vh;
     }
 
     /* ── Header ── */
     .header {
-      background: var(--navy);
-      padding: 18px 32px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
+      background: var(--blue);
+      color: white;
+      padding: 2.5rem 2rem 2rem;
+      border-radius: 16px;
     }
-    .header-icon {
-      font-size: 22px;
-      line-height: 1;
+    .header-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.65;
+      margin-bottom: 0.5rem;
     }
-    .header-text h1 {
-      font-size: 17px;
-      font-weight: 700;
-      color: #fff;
+    .header h1 {
+      font-size: 1.75rem;
+      font-weight: 500;
       line-height: 1.2;
+      margin-bottom: 0.5rem;
     }
-    .header-text p {
-      font-size: 12px;
-      color: rgba(255,255,255,0.65);
-      margin-top: 2px;
+    .header-sub {
+      font-size: 0.9rem;
+      opacity: 0.75;
     }
 
     /* ── Layout ── */
     .page {
-      max-width: 860px;
+      max-width: 780px;
       margin: 0 auto;
-      padding: 32px 20px 64px;
+      padding: 2rem 1.5rem 4rem;
       display: flex;
       flex-direction: column;
       gap: 24px;
@@ -63,7 +68,7 @@
 
     /* ── Card ── */
     .card {
-      background: var(--card);
+      background: var(--white);
       border-radius: var(--radius);
       border: 1px solid var(--border);
       overflow: hidden;
@@ -77,8 +82,8 @@
     }
     .card-header h2 {
       font-size: 14px;
-      font-weight: 700;
-      color: #111827;
+      font-weight: 500;
+      color: var(--blue);
     }
     .card-header .step-badge {
       display: inline-flex;
@@ -87,7 +92,7 @@
       width: 22px;
       height: 22px;
       border-radius: 50%;
-      background: var(--navy);
+      background: var(--blue);
       color: #fff;
       font-size: 11px;
       font-weight: 700;
@@ -113,16 +118,16 @@
     }
     label {
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
     input[type="text"],
     input[type="email"] {
-      font-family: 'DM Sans', Arial, sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 14px;
-      color: #111827;
+      color: var(--text);
       background: var(--bg);
       border: 1.5px solid var(--border);
       border-radius: 6px;
@@ -133,13 +138,13 @@
     }
     input[type="text"]:focus,
     input[type="email"]:focus {
-      border-color: var(--navy);
-      box-shadow: 0 0 0 3px rgba(3,11,166,0.08);
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(27,79,138,0.08);
     }
 
     /* ── Preview ── */
     .preview-box {
-      background: #fff;
+      background: var(--white);
       border: 1.5px solid var(--border);
       border-radius: 8px;
       padding: 24px;
@@ -147,7 +152,7 @@
     }
     .preview-label {
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -167,27 +172,27 @@
       gap: 7px;
       padding: 10px 18px;
       border-radius: 6px;
-      font-family: 'DM Sans', Arial, sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
       cursor: pointer;
       border: none;
       transition: background 0.15s, color 0.15s, opacity 0.15s;
     }
     .btn-primary {
-      background: var(--navy);
+      background: var(--blue);
       color: #fff;
     }
-    .btn-primary:hover { background: #0210c7; }
+    .btn-primary:hover { background: #16407a; }
     .btn-primary.success {
       background: var(--teal);
     }
     .btn-secondary {
-      background: #f0f0fb;
-      color: var(--navy);
-      border: 1.5px solid #d0d2f0;
+      background: var(--blue-lt);
+      color: var(--blue);
+      border: 1.5px solid #c5d8ee;
     }
-    .btn-secondary:hover { background: #e2e3f5; }
+    .btn-secondary:hover { background: #ddeaf7; }
 
     .btn-hint {
       font-size: 11px;
@@ -204,8 +209,8 @@
     }
     .method-title {
       font-size: 12px;
-      font-weight: 700;
-      color: var(--navy);
+      font-weight: 500;
+      color: var(--blue);
       text-transform: uppercase;
       letter-spacing: 0.07em;
       margin-bottom: 10px;
@@ -225,8 +230,8 @@
       width: 22px;
       height: 22px;
       border-radius: 50%;
-      background: #eff0fb;
-      color: var(--navy);
+      background: var(--blue-lt);
+      color: var(--blue);
       font-size: 11px;
       font-weight: 700;
       display: flex;
@@ -236,53 +241,51 @@
     }
     .step-text {
       font-size: 13px;
-      color: #374151;
+      color: var(--muted);
       line-height: 1.55;
     }
     .step-text strong {
-      color: #111827;
+      color: var(--text);
     }
     .step-text code {
-      background: #f3f4f6;
+      background: var(--bg);
+      border: 1px solid var(--border);
       border-radius: 4px;
       padding: 1px 5px;
       font-size: 12px;
       font-family: monospace;
-      color: #374151;
+      color: var(--text);
     }
     .divider {
       border: none;
       border-top: 1px solid var(--border);
     }
     .note-box {
-      background: #eff0fb;
-      border-left: 3px solid var(--navy);
+      background: var(--blue-lt);
+      border-left: 3px solid var(--blue);
       border-radius: 0 6px 6px 0;
       padding: 10px 14px;
       font-size: 12px;
-      color: #1a2280;
+      color: var(--blue);
       line-height: 1.5;
     }
 
     @media (max-width: 540px) {
       .form-grid { grid-template-columns: 1fr; }
-      .header { padding: 14px 16px; }
-      .page { padding: 20px 12px 48px; }
+      .page { padding: 1.5rem 1rem 3rem; }
       .card-body { padding: 16px; }
     }
   </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="header-icon">✍️</div>
-  <div class="header-text">
-    <h1>Email Signature Generator</h1>
-    <p>Women in Tech Canada</p>
-  </div>
-</div>
-
 <div class="page">
+
+  <div class="header">
+    <p class="header-eyebrow">Women in Tech Canada</p>
+    <h1>Email Signature Generator</h1>
+    <p class="header-sub">Create and install your WIT Canada email signature.</p>
+  </div>
 
   <!-- ── Step 1: Form ── -->
   <div class="card">
@@ -342,6 +345,10 @@
     </div>
     <div class="card-body">
       <div class="instructions">
+
+        <div class="note-box" style="margin-bottom: 4px;">
+          Before copying — review your details in step 1 and make any corrections. Your name, role and email will appear exactly as shown in the preview above.
+        </div>
 
         <div>
           <div class="steps">
@@ -417,23 +424,23 @@
     return (
       '<table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, sans-serif; border-collapse: collapse;">' +
         '<tr>' +
-          '<td valign="middle" style="padding: 0 16px 0 0;">' +
-            '<img src="' + LOGO_URL + '" alt="Women in Tech Canada" width="150" height="auto" style="display: block; border: 0; height: auto;" />' +
+          '<td style="padding: 0 16px 0 0; vertical-align: top;">' +
+            '<img src="' + LOGO_URL + '" alt="Women in Tech Canada" width="120" height="auto" style="display: block; border: 0; height: auto;" />' +
           '</td>' +
-          '<td valign="middle" style="padding: 0;">' +
-            '<p style="margin:0 0 3px 0;font-size:20px;font-weight:bold;color:#030ba6;line-height:1.2;">' + esc(fullName) + '</p>' +
-            '<p style="margin:0 0 3px 0;font-size:13px;color:#030ba6;line-height:1.4;">' + esc(displayRole) + ' - WIT Canada</p>' +
-            '<p style="margin:0 0 3px 0;font-size:13px;color:#030ba6;line-height:1.4;">' +
+          '<td style="padding: 0; vertical-align: middle;">' +
+            '<p style="margin:0 0 3px 0;font-size:16px;font-weight:bold;color:#030ba6;line-height:1.2;">' + esc(fullName) + '</p>' +
+            '<p style="margin:0 0 3px 0;font-size:12px;color:#030ba6;line-height:1.4;">' + esc(displayRole) + ' - WIT Canada</p>' +
+            '<p style="margin:0 0 3px 0;font-size:12px;color:#030ba6;line-height:1.4;">' +
               '<a href="mailto:' + esc(displayEmail) + '" style="color:#030ba6;text-decoration:none;">' + esc(displayEmail) + '</a>' +
             '</p>' +
-            '<p style="margin:0 0 10px 0;font-size:13px;color:#030ba6;line-height:1.4;">' +
+            '<p style="margin:0 0 10px 0;font-size:12px;color:#030ba6;line-height:1.4;">' +
               '<a href="https://women-in-tech.org" style="color:#030ba6;text-decoration:none;">women-in-tech.org</a>' +
             '</p>' +
             '<table cellpadding="0" cellspacing="0" border="0"><tr>' +
-              '<td style="padding-right:8px;"><a href="' + URL_LI + '" target="_blank"><img src="' + ICON_LI + '" alt="LinkedIn" width="28" height="28" style="display:block;border:0;" /></a></td>' +
-              '<td style="padding-right:8px;"><a href="' + URL_X  + '" target="_blank"><img src="' + ICON_X  + '" alt="X" width="28" height="28" style="display:block;border:0;" /></a></td>' +
-              '<td style="padding-right:8px;"><a href="' + URL_FB + '" target="_blank"><img src="' + ICON_FB + '" alt="Facebook" width="28" height="28" style="display:block;border:0;" /></a></td>' +
-              '<td><a href="' + URL_IG + '" target="_blank"><img src="' + ICON_IG + '" alt="Instagram" width="28" height="28" style="display:block;border:0;" /></a></td>' +
+              '<td style="padding-right:8px;"><a href="' + URL_LI + '" target="_blank"><img src="' + ICON_LI + '" alt="LinkedIn" width="24" height="24" style="display:block;border:0;" /></a></td>' +
+              '<td style="padding-right:8px;"><a href="' + URL_X  + '" target="_blank"><img src="' + ICON_X  + '" alt="X" width="24" height="24" style="display:block;border:0;" /></a></td>' +
+              '<td style="padding-right:8px;"><a href="' + URL_FB + '" target="_blank"><img src="' + ICON_FB + '" alt="Facebook" width="24" height="24" style="display:block;border:0;" /></a></td>' +
+              '<td><a href="' + URL_IG + '" target="_blank"><img src="' + ICON_IG + '" alt="Instagram" width="24" height="24" style="display:block;border:0;" /></a></td>' +
             '</tr></table>' +
           '</td>' +
         '</tr>' +
