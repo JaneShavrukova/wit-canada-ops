@@ -28,13 +28,13 @@ function openNewMemberGuideExternal() {
   .card {
     background: #fff;
     border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(26,47,163,0.10);
+    box-shadow: 0 2px 12px rgba(27,79,138,0.10);
     padding: 28px 28px 24px;
     max-width: 420px;
     width: 100%;
   }
   .header {
-    background: #1a2fa3;
+    background: #1b4f8a;
     border-radius: 8px;
     padding: 16px 20px;
     margin-bottom: 20px;
@@ -56,7 +56,7 @@ function openNewMemberGuideExternal() {
     margin-bottom: 16px;
   }
   .covers-label {
-    color: #1a2fa3;
+    color: #1b4f8a;
     font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
@@ -78,7 +78,7 @@ function openNewMemberGuideExternal() {
     content: '✓';
     position: absolute;
     left: 0;
-    color: #1a2fa3;
+    color: #1b4f8a;
     font-weight: 700;
     font-size: 12px;
   }
@@ -98,7 +98,7 @@ function openNewMemberGuideExternal() {
     font-family: inherit;
   }
   .btn-primary {
-    background: #1a2fa3;
+    background: #1b4f8a;
     color: #fff;
     text-decoration: none;
     display: flex;
@@ -106,12 +106,12 @@ function openNewMemberGuideExternal() {
     justify-content: center;
     gap: 6px;
   }
-  .btn-primary:hover { background: #142580; }
+  .btn-primary:hover { background: #16407a; }
   .btn-secondary {
-    background: #f0f2fc;
-    color: #1a2fa3;
+    background: #ebf2fa;
+    color: #1b4f8a;
   }
-  .btn-secondary:hover { background: #dde1f7; }
+  .btn-secondary:hover { background: #ddeaf7; }
   .btn-secondary.copied {
     background: #e6f4ea;
     color: #1e7e34;

@@ -148,7 +148,7 @@
       .progress-label {
         font-size: 13px;
         font-weight: 500;
-        color: var(--teal);
+        color: var(--blue);
         min-width: 2.5rem;
         text-align: right;
       }
@@ -160,8 +160,8 @@
 
       /* ── CONTACT CARD ── */
       .contact-card {
-        background: var(--teal-lt);
-        border-left: 3px solid var(--teal);
+        background: var(--blue-lt);
+        border-left: 3px solid var(--blue-md);
         border-radius: 0 var(--radius) var(--radius) 0;
         padding: 0.875rem 1.125rem;
         margin-bottom: 1.75rem;
@@ -170,7 +170,7 @@
         font-size: 11px;
         text-transform: uppercase;
         letter-spacing: 0.1em;
-        color: var(--teal);
+        color: var(--blue);
         font-weight: 500;
         margin-bottom: 0.25rem;
       }
@@ -396,8 +396,8 @@
       /* ── DONE STATE ── */
       .all-done-banner {
         display: none;
-        background: var(--teal-lt);
-        border: 1px solid #9fe1cb;
+        background: var(--blue-lt);
+        border: 1px solid #c5d8ee;
         border-radius: 10px;
         padding: 1rem 1.25rem;
         text-align: center;
@@ -409,7 +409,7 @@
       .all-done-banner p:first-child {
         font-weight: 500;
         font-size: 0.95rem;
-        color: var(--teal);
+        color: var(--blue);
       }
       .all-done-banner p:last-child {
         font-size: 0.8rem;
@@ -489,6 +489,11 @@
           <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           <div class="check-text">
             <div class="check-label">Reply to the Ops Lead to confirm my email is active</div>
+            <div class="check-note">
+              <a href="mailto:yevheniia.shavrukova@women-in-tech.org"
+                 onclick="event.stopPropagation()"
+                 style="color:var(--blue-md);text-decoration:none;font-style:normal;">yevheniia.shavrukova@women-in-tech.org</a>
+            </div>
           </div>
         </div>
 
@@ -569,8 +574,13 @@
         <div class="check-item" onclick="toggle(this)">
           <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           <div class="check-text">
-            <div class="check-label">Send my LinkedIn link and birthday to the Ops Lead</div>
-            <div class="check-note">we love celebrating our team</div>
+            <div class="check-label">Fill in your personal info — LinkedIn, birthday, and phone</div>
+            <div class="check-note">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSfw4HePeT3moc9RuFSx3wAgMfAFod7a4J5VVuHQM7aIePcuCA/viewform"
+                 target="_blank"
+                 onclick="event.stopPropagation()"
+                 style="color:var(--blue-md);text-decoration:none;font-style:normal;">Open Personal Info Form ↗</a>
+            </div>
           </div>
         </div>
 
