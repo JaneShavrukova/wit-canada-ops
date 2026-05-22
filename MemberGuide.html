@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <base target="_top">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WIT Canada — Welcome Guide</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💙</text></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --blue: #1b4f8a;
+        --blue-lt: #ebf2fa;
+        --blue-md: #2e86c1;
+        --teal: #0f6e56;
+        --teal-lt: #e1f5ee;
+        --amber: #854f0b;
+        --amber-lt: #faeeda;
+        --gray: #5f5e5a;
+        --gray-lt: #f1efe8;
+        --text: #1a1a1a;
+        --muted: #6b6b6b;
+        --border: #e4e2db;
+        --bg: #faf9f7;
+        --white: #ffffff;
+        --radius: 10px;
+        --check-done: #0f6e56;
+      }
+
+      .check-label a {
+        color: var(--text);
+        text-decoration: underline;
+        text-decoration-color: var(--border);
+        transition: text-decoration-color 0.15s;
+      }
+      .check-label a:hover {
+        text-decoration-color: var(--blue-md);
+        color: var(--blue-md);
+      }
+      .check-item.done .check-label a {
+        color: var(--muted);
+        text-decoration-color: transparent;
+      }
+
+      .step-tag {
+        display: inline-block;
+        font-size: 0.68rem;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        padding: 1px 6px;
+        border-radius: 4px;
+        margin-left: 6px;
+        vertical-align: middle;
+        position: relative;
+        top: -1px;
+      }
+      .tag-required {
+        background: var(--blue-lt);
+        color: var(--blue);
+      }
+      .tag-recommended {
+        background: var(--gray-lt);
+        color: var(--gray);
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+
+      .page {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem 4rem;
+      }
+
+      /* ── HEADER ── */
+      .header {
+        background: var(--blue);
+        color: white;
+        padding: 2.5rem 2rem 2rem;
+        border-radius: 16px;
+        margin-bottom: 2rem;
+      }
+      .header-eyebrow {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        opacity: 0.65;
+        margin-bottom: 0.5rem;
+      }
+      .header h1 {
+        font-family: "DM Serif Display", serif;
+        font-size: 2rem;
+        font-weight: 400;
+        line-height: 1.2;
+        margin-bottom: 0.5rem;
+      }
+      .header-sub {
+        font-size: 0.9rem;
+        opacity: 0.75;
+      }
+
+      /* ── PROGRESS BAR ── */
+      .progress-wrap {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1rem 1.25rem;
+        margin-bottom: 1.75rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .progress-track {
+        flex: 1;
+        height: 6px;
+        background: var(--gray-lt);
+        border-radius: 99px;
+        overflow: hidden;
+      }
+      .progress-fill {
+        height: 100%;
+        background: var(--teal);
+        border-radius: 99px;
+        width: 0%;
+        transition: width 0.4s ease;
+      }
+      .progress-label {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--teal);
+        min-width: 2.5rem;
+        text-align: right;
+      }
+      .progress-done {
+        font-size: 13px;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      /* ── CONTACT CARD ── */
+      .contact-card {
+        background: var(--teal-lt);
+        border-left: 3px solid var(--teal);
+        border-radius: 0 var(--radius) var(--radius) 0;
+        padding: 0.875rem 1.125rem;
+        margin-bottom: 1.75rem;
+      }
+      .contact-card .label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--teal);
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+      }
+      .contact-card .name {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #1a1a1a;
+      }
+      .contact-card .email {
+        font-size: 0.85rem;
+        color: var(--blue-md);
+        margin-top: 2px;
+      }
+
+      /* ── SECTION ── */
+      .section {
+        margin-bottom: 1.75rem;
+      }
+      .section-header {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding-bottom: 0.625rem;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 0.875rem;
+      }
+      .section-icon {
+        width: 28px;
+        height: 28px;
+        background: var(--blue-lt);
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        flex-shrink: 0;
+      }
+      .section-title {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--blue);
+        letter-spacing: 0.01em;
+      }
+
+      /* ── CHECK ITEMS ── */
+      .check-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 0.6rem 0.5rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.15s;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+      .check-item:hover {
+        background: var(--gray-lt);
+      }
+      .check-item.done {
+        opacity: 0.55;
+      }
+      .checkbox {
+        width: 18px;
+        height: 18px;
+        border: 1.5px solid var(--border);
+        border-radius: 4px;
+        flex-shrink: 0;
+        margin-top: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.15s;
+        background: var(--white);
+      }
+      .check-item.done .checkbox {
+        background: var(--check-done);
+        border-color: var(--check-done);
+      }
+      .checkbox svg {
+        display: none;
+      }
+      .check-item.done .checkbox svg {
+        display: block;
+      }
+      .check-text {
+        flex: 1;
+      }
+      .check-label {
+        font-size: 0.875rem;
+        color: var(--text);
+        line-height: 1.4;
+      }
+      .check-item.done .check-label {
+        text-decoration: line-through;
+        color: var(--muted);
+      }
+      .check-note {
+        font-size: 0.775rem;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+
+      /* ── TIP ── */
+      .tip {
+        background: var(--blue-lt);
+        border-left: 2px solid var(--blue-md);
+        border-radius: 0 8px 8px 0;
+        padding: 0.7rem 0.9rem;
+        margin: 0.5rem 0 0.25rem;
+        font-size: 0.8rem;
+        color: var(--muted);
+        font-style: italic;
+        line-height: 1.5;
+      }
+
+      /* ── TOOLS TABLE ── */
+      .tools-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+      }
+      .tools-table tr {
+        border-bottom: 1px solid var(--border);
+      }
+      .tools-table tr:last-child {
+        border-bottom: none;
+      }
+      .tools-table td {
+        padding: 0.6rem 0.5rem;
+      }
+      .tools-table td:first-child {
+        font-weight: 500;
+        color: var(--text);
+        width: 42%;
+      }
+      .tools-table td:last-child {
+        color: var(--muted);
+      }
+
+      /* ── PERSONAL CHECKLIST ── */
+      .personal-section {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1.25rem;
+        margin-bottom: 1.75rem;
+      }
+      .personal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+      .personal-title {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--text);
+      }
+      .personal-note {
+        font-size: 0.775rem;
+        color: var(--muted);
+        font-style: italic;
+        margin-bottom: 0.875rem;
+        line-height: 1.4;
+      }
+      .personal-acc-arrow {
+        font-size: 10px;
+        transition: transform 0.2s;
+        color: var(--muted);
+      }
+      .personal-section.open .personal-acc-arrow {
+        transform: rotate(180deg);
+        color: var(--blue);
+      }
+      .personal-body {
+        display: none;
+        margin-top: 0.5rem;
+      }
+      .personal-section.open .personal-body {
+        display: block;
+      }
+
+      /* ── RESET BTN ── */
+      .reset-btn {
+        font-size: 12px;
+        color: var(--muted);
+        background: none;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 3px 10px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.15s;
+      }
+      .reset-btn:hover {
+        border-color: var(--gray);
+        color: var(--text);
+      }
+
+      /* ── FOOTER ── */
+      .footer {
+        background: var(--blue);
+        color: white;
+        text-align: center;
+        padding: 1.75rem 1.5rem;
+        border-radius: 12px;
+        margin-top: 0.5rem;
+      }
+      .footer p:first-child {
+        font-family: "DM Serif Display", serif;
+        font-size: 1.2rem;
+        font-weight: 400;
+        margin-bottom: 0.4rem;
+      }
+      .footer p:last-child {
+        font-size: 0.8rem;
+        opacity: 0.7;
+      }
+
+      /* ── DONE STATE ── */
+      .all-done-banner {
+        display: none;
+        background: var(--teal-lt);
+        border: 1px solid #9fe1cb;
+        border-radius: 10px;
+        padding: 1rem 1.25rem;
+        text-align: center;
+        margin-bottom: 1.75rem;
+      }
+      .all-done-banner.visible {
+        display: block;
+      }
+      .all-done-banner p:first-child {
+        font-weight: 500;
+        font-size: 0.95rem;
+        color: var(--teal);
+      }
+      .all-done-banner p:last-child {
+        font-size: 0.8rem;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="header">
+        <p class="header-eyebrow">Women in Tech Canada</p>
+        <? if (firstName) { ?>
+        <h1>Hi <?= firstName ?> 👋</h1>
+        <? if (role) { ?>
+        <p style="font-size:0.85rem;opacity:0.8;"><?= role ?></p>
+        <? } ?>
+        <? } else { ?>
+        <h1>Welcome to the team</h1>
+        <p class="header-sub">Everything you need to get set up — one step at a time.</p>
+        <? } ?>
+      </div>
+
+      <p style="font-size:0.78rem;color:var(--muted);text-align:center;margin-bottom:0.75rem;">
+        Tick each box as you complete it — your progress saves automatically.
+      </p>
+
+      <div class="progress-wrap">
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <span class="progress-label" id="progress-pct">0%</span>
+      </div>
+
+      <div class="all-done-banner" id="done-banner">
+        <p>You're fully onboarded!</p>
+        <p>Let the Ops Lead know when you're done — they'll update your status to active.</p>
+      </div>
+
+      <p style="font-size:0.78rem;color:var(--muted);margin-bottom:1.75rem;">
+        Questions? Reach out to the Ops Lead<br>
+        Jane — <a href="mailto:yevheniia.shavrukova@women-in-tech.org"
+           style="color:var(--blue-md);text-decoration:none;">yevheniia.shavrukova@women-in-tech.org</a>
+      </p>
+
+      <!-- SECTION 1 — Account setup -->
+      <div class="section">
+        <div class="section-header">
+          <div class="section-icon">🔐</div>
+          <span class="section-title">Account setup</span>
+        </div>
+
+        <div class="check-item" onclick="toggle(this)">
+          <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="check-text">
+            <div class="check-label">Sign my volunteer agreement</div>
+            <div class="check-note">if you haven't already</div>
+          </div>
+        </div>
+
+        <div class="check-item" onclick="toggle(this)">
+          <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="check-text">
+            <div class="check-label">Check my personal email for the WIT activation link</div>
+          </div>
+        </div>
+
+        <div class="check-item" onclick="toggle(this)">
+          <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="check-text">
+            <div class="check-label">Activate my WIT email</div>
+            <div class="check-note">within 48 hours</div>
+          </div>
+        </div>
+
+        <div class="check-item" onclick="toggle(this)">
+          <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="check-text">
+            <div class="check-label">Reply to the Ops Lead to confirm my email is active</div>
+          </div>
+        </div>
+
+        <div class="check-item" onclick="toggle(this)">
+          <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="check-text">
+            <div class="check-label">Set up my Gmail email signature</div>
+            <div class="check-note">
+              <a href="<?= signatureUrl ?>" target="_blank"
+                 onclick="event.stopPropagation()"
+                 style="color:var(--blue-md);text-decoration:none;font-style:normal;">
+                Open Signature Generator ↗
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 2 — Communication & access -->
+      <div class="section">
+        <div class="section-header">
+          <div class="section-icon">💬</div>
+          <span class="section-title">Communication &amp; access</span>
+        </div>
+
+        <div class="check-item" onclick="toggle(this)">
+          <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="check-text">
+            <div class="check-label">
+              <a href="https://chat.google.com" target="_blank">Open Google Chat</a>
+              using my WIT email
+            </div>
+            <div class="check-note">
+              Also available on
+              <a href="https://apps.apple.com/app/google-chat/id1163852619" target="_blank" style="color:var(--blue-md);">iOS</a>
+              and
+              <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.dynamite" target="_blank" style="color:var(--blue-md);">Android</a>
+            </div>
+            <div class="check-note">you've already been added to your channels</div>
+          </div>
+        </div>
+
+        <div class="check-item" onclick="toggle(this)">
+          <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="check-text">
+            <div class="check-label">Explore my channels and get familiar</div>
+          </div>
+        </div>
+
+        <div class="check-item" onclick="toggle(this)">
+          <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="check-text">
+            <div class="check-label">Confirm I can see the Shared Drive</div>
+          </div>
+        </div>
+
+        <div class="tip">
+          Can't see the Shared Drive or channels? Message the Ops Lead — it takes two minutes to sort out.
+        </div>
+      </div>
+
+      <!-- SECTION 3 — Community profile -->
+      <div class="section">
+        <div class="section-header">
+          <div class="section-icon">🌐</div>
+          <span class="section-title">Community profile</span>
+        </div>
+
+        <div class="check-item" onclick="toggle(this)">
+          <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="check-text">
+            <div class="check-label">
+              <a href="https://drive.google.com/file/d/19NNx6W6LsdGORuWOu8jXAv-4mI2eNWXl/view" target="_blank">Discover our mission and values</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="check-item" onclick="toggle(this)">
+          <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="check-text">
+            <div class="check-label">Send my LinkedIn link and birthday to the Ops Lead</div>
+            <div class="check-note">we love celebrating our team</div>
+          </div>
+        </div>
+
+        <div class="check-item" onclick="toggle(this)">
+          <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="check-text">
+            <div class="check-label">
+              <a href="https://wit-h.com/feed" target="_blank">Create my WIT Hub profile</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="check-item" onclick="toggle(this)">
+          <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="check-text">
+            <div class="check-label">
+              <a href="https://www.linkedin.com/company/womenintechorg/posts/?feedView=all" target="_blank">Follow WIT Canada on LinkedIn</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="check-item" onclick="toggle(this)">
+          <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="check-text">
+            <div class="check-label">
+              <a href="https://www.instagram.com/womenintechcanada/" target="_blank">Follow WIT Canada on Instagram</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 4 — Say hello -->
+      <div class="section">
+        <div class="section-header">
+          <div class="section-icon">👋</div>
+          <span class="section-title">Say hello</span>
+        </div>
+
+        <div class="check-item" onclick="toggle(this)">
+          <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="check-text">
+            <div class="check-label">
+              <a href="https://drive.google.com/drive/folders/1N1aRR34_TwfNufIHAmpisTA9irHSjdt3" target="_blank">Add my photo and bio to the team folder</a>
+            </div>
+            <div class="check-note">
+              Name your files like this —
+              <code style="background:#f1efe8;padding:1px 5px;border-radius:3px;font-size:11px;">photo_jane-smith.jpg</code>
+              and
+              <code style="background:#f1efe8;padding:1px 5px;border-radius:3px;font-size:11px;">bio_jane-smith.txt</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="check-item" onclick="toggle(this)">
+          <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="check-text">
+            <div class="check-label">
+              <a href="https://mail.google.com/mail/u/0/#chat/space/AAQAqHMd3OY" target="_blank">Introduce myself in [COMM] Community channel</a>
+            </div>
+            <div class="check-note">keep it casual — just a few lines about who you are</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 5 — Your tools -->
+      <div class="section">
+        <div class="section-header">
+          <div class="section-icon">🛠️</div>
+          <span class="section-title">Your tools</span>
+        </div>
+        <table class="tools-table">
+          <tr><td>Google Chat</td><td>Main team communication — async by default</td></tr>
+          <tr><td>Google Drive</td><td>Shared documents, resources, and files</td></tr>
+          <tr><td>Google Calendar</td><td>Events, meetings, and key dates</td></tr>
+          <tr><td>Google Meet</td><td>Video calls with your team</td></tr>
+        </table>
+      </div>
+
+      <!-- SECTION 6 — How we work -->
+      <div class="section">
+        <div class="section-header">
+          <div class="section-icon">⚙️</div>
+          <span class="section-title">How we work</span>
+        </div>
+        <div style="font-size:0.85rem;color:var(--muted);line-height:1.7;padding:0 0.25rem;">
+          <p>We communicate async via Google Chat — no need to be online all day.</p>
+          <p style="margin-top:0.4rem;">Some teams have regular sync calls — your lead will fill you in.</p>
+        </div>
+      </div>
+
+      <!-- PERSONAL CHECKLIST -->
+      <div class="personal-section" id="personal-section">
+        <div class="personal-header" onclick="togglePersonal()">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span class="personal-title">My checklist at a glance</span>
+            <span class="personal-acc-arrow">▼</span>
+          </div>
+          <button class="reset-btn" onclick="event.stopPropagation();resetAll()">Reset</button>
+        </div>
+        <div class="personal-body">
+          <p class="personal-note">This page saves your progress automatically. Tick each item as you go.</p>
+          <div id="mini-list" style="display:flex;flex-direction:column;gap:2px;"></div>
+        </div>
+      </div>
+
+      <div style="background:var(--blue-lt);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+        <div>
+          <p style="font-size:0.875rem;font-weight:500;color:var(--blue);margin-bottom:2px;">All done? Let the Ops Lead know.</p>
+          <p style="font-size:0.8rem;color:var(--muted);">Send a quick message and we will mark you as active.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;">
+          <a href="mailto:yevheniia.shavrukova@women-in-tech.org"
+             style="background:var(--blue);color:white;text-decoration:none;font-size:0.8rem;font-weight:500;padding:0.5rem 1rem;border-radius:6px;white-space:nowrap;">
+            Message the Ops Lead →
+          </a>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>You've got this — welcome to the team</p>
+        <p>
+          Questions? →
+          <a href="https://mail.google.com/mail/u/0/#chat/space/AAQAw6VgCeY" target="_blank" style="color:var(--blue-lt);">[SUP] Need Help</a>
+          in Google Chat, or message the Ops Lead directly
+        </p>
+      </div>
+    </div>
+
+    <script>
+      const LABELS = [
+        "Sign my volunteer agreement",
+        "Check for WIT email activation link",
+        "Activate my WIT email",
+        "Confirm activation to Ops Lead",
+        "Set up Gmail signature",
+        "Open Google Chat with WIT email",
+        "Explore my channels",
+        "Confirm Shared Drive access",
+        "Read about why we're all here",
+        "Send LinkedIn & birthday to Ops Lead",
+        "Create WIT Hub profile",
+        "Follow WIT Canada on LinkedIn",
+        "Follow WIT Canada on Instagram",
+        "Add photo & bio to team folder",
+        "Introduce myself in [COMM] Community",
+      ];
+
+      const items   = document.querySelectorAll(".check-item");
+      const fillEl  = document.getElementById("progress-fill");
+      const pctEl   = document.getElementById("progress-pct");
+      const textEl  = document.getElementById("progress-text");
+      const banner  = document.getElementById("done-banner");
+      const miniList = document.getElementById("mini-list");
+
+      const KEY = "wit_welcome_progress";
+      let state = JSON.parse(localStorage.getItem(KEY) || "[]");
+      if (!state.length) state = new Array(items.length).fill(false);
+
+      function toggle(el) {
+        const idx = [...items].indexOf(el);
+        state[idx] = !state[idx];
+        save();
+        render();
+      }
+
+      function resetAll() {
+        state = new Array(items.length).fill(false);
+        save();
+        render();
+      }
+
+      function save() {
+        localStorage.setItem(KEY, JSON.stringify(state));
+      }
+
+      function render() {
+        const done  = state.filter(Boolean).length;
+        const total = items.length;
+        const pct   = Math.round((done / total) * 100);
+
+        items.forEach((el, i) => el.classList.toggle("done", state[i]));
+        fillEl.style.width  = pct + "%";
+        pctEl.textContent   = pct + "%";
+        if (textEl) textEl.textContent = done + " of " + total + " done";
+        banner.classList.toggle("visible", done === total);
+
+        miniList.innerHTML = "";
+        items.forEach((el, i) => {
+          const label = LABELS[i];
+          const row   = document.createElement("div");
+          row.style.cssText = "display:flex;align-items:center;gap:8px;padding:5px 4px;border-radius:6px;cursor:pointer;";
+          row.onclick = () => toggle(el);
+
+          const dot = document.createElement("div");
+          dot.style.cssText =
+            "width:14px;height:14px;border-radius:3px;flex-shrink:0;border:1.5px solid " +
+            (state[i] ? "#0F6E56" : "#d4d2cb") + ";background:" +
+            (state[i] ? "#0F6E56" : "white") +
+            ";display:flex;align-items:center;justify-content:center;transition:all .15s;";
+          if (state[i])
+            dot.innerHTML = '<svg width="8" height="6" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+          const txt = document.createElement("span");
+          txt.style.cssText =
+            "font-size:0.8rem;color:" + (state[i] ? "#9b9b8d" : "#1a1a1a") + ";" +
+            (state[i] ? "text-decoration:line-through;" : "");
+          txt.textContent = label;
+
+          row.appendChild(dot);
+          row.appendChild(txt);
+          miniList.appendChild(row);
+        });
+      }
+
+      function togglePersonal() {
+        document.getElementById("personal-section").classList.toggle("open");
+      }
+
+      render();
+    </script>
+  </body>
+</html>

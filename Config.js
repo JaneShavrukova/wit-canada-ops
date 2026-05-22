@@ -54,9 +54,9 @@ const CONFIG = {
     BIO: "Bio",
     CONTRACT_STATUS: "Contract status",
     MEMBER_STATUS: "Member Status",
-    PHONE:          "Phone Number (Whats App)",
-    LINKEDIN:       "LinkedIn URL",
-    BIRTHDAY:       "Birthday",
+    PHONE: "Phone Number (Whats App)",
+    LINKEDIN: "LinkedIn URL",
+    BIRTHDAY: "Birthday",
   },
 
   GROUPS: {
@@ -96,6 +96,8 @@ const CONFIG = {
 
   URLS: {
     MEMBER_GUIDE:
-      "https://script.google.com/a/macros/women-in-tech.org/s/AKfycbx3I957phvYxuje0n7Z1aBPrjmqm4Rh9cLnkBLAH0zITEHbg6vWiylTuFNt-QgvZerVoQ/exec",
+      "https://script.google.com/a/macros/women-in-tech.org/s/AKfycbxh3-EQ7VUbbf1WMn9q9aSBBCnSimhRST5QwEjs6VDXij07JwJQMP0Md99DqpqrFNmU/exec",
+    SIGNATURE_GENERATOR:
+      "https://script.google.com/a/macros/women-in-tech.org/s/AKfycbxh3-EQ7VUbbf1WMn9q9aSBBCnSimhRST5QwEjs6VDXij07JwJQMP0Md99DqpqrFNmU/exec?page=signature",
   },
 };

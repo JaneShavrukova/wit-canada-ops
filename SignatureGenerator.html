@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Email Signature Generator — WIT Canada</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:   #030ba6;
+      --teal:   #0f6e56;
+      --bg:     #faf9f7;
+      --card:   #ffffff;
+      --border: #e4e2db;
+      --muted:  #6b7280;
+      --radius: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', Arial, sans-serif;
+      background: var(--bg);
+      color: #111827;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: var(--navy);
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .header-icon {
+      font-size: 22px;
+      line-height: 1;
+    }
+    .header-text h1 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+    }
+    .header-text p {
+      font-size: 12px;
+      color: rgba(255,255,255,0.65);
+      margin-top: 2px;
+    }
+
+    /* ── Layout ── */
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 32px 20px 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 16px 24px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-header h2 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #111827;
+    }
+    .card-header .step-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .card-body {
+      padding: 20px 24px;
+    }
+
+    /* ── Form ── */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+    label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    input[type="text"],
+    input[type="email"] {
+      font-family: 'DM Sans', Arial, sans-serif;
+      font-size: 14px;
+      color: #111827;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      padding: 9px 12px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      width: 100%;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus {
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(3,11,166,0.08);
+    }
+
+    /* ── Preview ── */
+    .preview-box {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      min-height: 100px;
+    }
+    .preview-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 14px;
+    }
+
+    /* ── Buttons ── */
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-family: 'DM Sans', Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: background 0.15s, color 0.15s, opacity 0.15s;
+    }
+    .btn-primary {
+      background: var(--navy);
+      color: #fff;
+    }
+    .btn-primary:hover { background: #0210c7; }
+    .btn-primary.success {
+      background: var(--teal);
+    }
+    .btn-secondary {
+      background: #f0f0fb;
+      color: var(--navy);
+      border: 1.5px solid #d0d2f0;
+    }
+    .btn-secondary:hover { background: #e2e3f5; }
+
+    .btn-hint {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-top: 4px;
+    }
+
+    /* ── Instructions ── */
+    .instructions {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .method-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 10px;
+    }
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .step {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #eff0fb;
+      color: var(--navy);
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+    .step-text {
+      font-size: 13px;
+      color: #374151;
+      line-height: 1.55;
+    }
+    .step-text strong {
+      color: #111827;
+    }
+    .step-text code {
+      background: #f3f4f6;
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-size: 12px;
+      font-family: monospace;
+      color: #374151;
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+    .note-box {
+      background: #eff0fb;
+      border-left: 3px solid var(--navy);
+      border-radius: 0 6px 6px 0;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #1a2280;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 540px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .header { padding: 14px 16px; }
+      .page { padding: 20px 12px 48px; }
+      .card-body { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-icon">✍️</div>
+  <div class="header-text">
+    <h1>Email Signature Generator</h1>
+    <p>Women in Tech Canada</p>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- ── Step 1: Form ── -->
+  <div class="card">
+    <div class="card-header">
+      <span class="step-badge">1</span>
+      <h2>Your Details</h2>
+    </div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" value="<?= firstName ?>" placeholder="Jane" oninput="updatePreview()" />
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" value="<?= lastName ?>" placeholder="Smith" oninput="updatePreview()" />
+        </div>
+        <div class="form-group">
+          <label for="role">Role / Title</label>
+          <input type="text" id="role" value="<?= role ?>" placeholder="Operations Lead" oninput="updatePreview()" />
+        </div>
+        <div class="form-group">
+          <label for="witEmail">WIT Email</label>
+          <input type="email" id="witEmail" value="<?= witEmail ?>" placeholder="jane.smith@women-in-tech.org" oninput="updatePreview()" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Step 2: Preview ── -->
+  <div class="card">
+    <div class="card-header">
+      <span class="step-badge">2</span>
+      <h2>Signature Preview</h2>
+    </div>
+    <div class="card-body">
+      <div class="preview-label">Live preview — updates as you type</div>
+      <div class="preview-box" id="sig-preview"></div>
+
+      <div class="btn-row">
+        <div>
+          <button class="btn btn-secondary" onclick="selectForGmail()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            Select for Gmail
+          </button>
+          <p class="btn-hint">Selects rendered preview — then Ctrl+C / ⌘C</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Step 3: Gmail Instructions ── -->
+  <div class="card">
+    <div class="card-header">
+      <span class="step-badge">3</span>
+      <h2>Add to Gmail</h2>
+    </div>
+    <div class="card-body">
+      <div class="instructions">
+
+        <div>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-text">Click <strong>Select for Gmail</strong> above — the preview will be highlighted.</div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-text">Press <code>Ctrl+C</code> (Windows) or <code>⌘C</code> (Mac) to copy.</div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-text">Open <strong>Gmail</strong> → click <strong>Settings ⚙️</strong> → <strong>See all settings</strong>.</div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-text">Go to the <strong>General</strong> tab → scroll to <strong>Signature</strong> → click <strong>Create new</strong>. Name it (e.g. <em>WIT Canada</em>).</div>
+            </div>
+            <div class="step">
+              <div class="step-num">5</div>
+              <div class="step-text">Click inside the signature editor box and paste: <code>Ctrl+V</code> / <code>⌘V</code>.</div>
+            </div>
+            <div class="step">
+              <div class="step-num">6</div>
+              <div class="step-text">Scroll to the bottom of the Settings page and click <strong>Save Changes</strong>.</div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <div class="note-box">
+          After saving, set your new signature as the default for <strong>New emails</strong> and <strong>Replies/forwards</strong> in the same Signature settings section.
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+  var LOGO_URL    = 'https://raw.githubusercontent.com/JaneShavrukova/wit-canada-ops/main/assets/logo.png';
+  var ICON_LI     = 'https://raw.githubusercontent.com/JaneShavrukova/wit-canada-ops/main/assets/icon-linkedin.png';
+  var ICON_X      = 'https://raw.githubusercontent.com/JaneShavrukova/wit-canada-ops/main/assets/icon-x.png';
+  var ICON_FB     = 'https://raw.githubusercontent.com/JaneShavrukova/wit-canada-ops/main/assets/icon-facebook.png';
+  var ICON_IG     = 'https://raw.githubusercontent.com/JaneShavrukova/wit-canada-ops/main/assets/icon-instagram.png';
+
+  var URL_LI      = 'https://ca.linkedin.com/showcase/womenintech-canada/';
+  var URL_X       = 'https://x.com/WomenInTechOrg';
+  var URL_FB      = 'https://www.facebook.com/WomenInTechOrg';
+  var URL_IG      = 'https://www.instagram.com/womenintechcanada/';
+
+  function esc(str) {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function buildSignatureHtml() {
+    var firstName = document.getElementById('firstName').value.trim();
+    var lastName  = document.getElementById('lastName').value.trim();
+    var role      = document.getElementById('role').value.trim();
+    var witEmail  = document.getElementById('witEmail').value.trim();
+
+    var fullName     = [firstName, lastName].filter(Boolean).join(' ') || 'First Name Last Name';
+    var displayRole  = role     || 'Job Title';
+    var displayEmail = witEmail || 'firstname.lastname@women-in-tech.org';
+
+    return (
+      '<table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, sans-serif; border-collapse: collapse;">' +
+        '<tr>' +
+          '<td valign="middle" style="padding: 0 16px 0 0;">' +
+            '<img src="' + LOGO_URL + '" alt="Women in Tech Canada" width="150" height="auto" style="display: block; border: 0; height: auto;" />' +
+          '</td>' +
+          '<td valign="middle" style="padding: 0;">' +
+            '<p style="margin:0 0 3px 0;font-size:20px;font-weight:bold;color:#030ba6;line-height:1.2;">' + esc(fullName) + '</p>' +
+            '<p style="margin:0 0 3px 0;font-size:13px;color:#030ba6;line-height:1.4;">' + esc(displayRole) + ' - WIT Canada</p>' +
+            '<p style="margin:0 0 3px 0;font-size:13px;color:#030ba6;line-height:1.4;">' +
+              '<a href="mailto:' + esc(displayEmail) + '" style="color:#030ba6;text-decoration:none;">' + esc(displayEmail) + '</a>' +
+            '</p>' +
+            '<p style="margin:0 0 10px 0;font-size:13px;color:#030ba6;line-height:1.4;">' +
+              '<a href="https://women-in-tech.org" style="color:#030ba6;text-decoration:none;">women-in-tech.org</a>' +
+            '</p>' +
+            '<table cellpadding="0" cellspacing="0" border="0"><tr>' +
+              '<td style="padding-right:8px;"><a href="' + URL_LI + '" target="_blank"><img src="' + ICON_LI + '" alt="LinkedIn" width="28" height="28" style="display:block;border:0;" /></a></td>' +
+              '<td style="padding-right:8px;"><a href="' + URL_X  + '" target="_blank"><img src="' + ICON_X  + '" alt="X" width="28" height="28" style="display:block;border:0;" /></a></td>' +
+              '<td style="padding-right:8px;"><a href="' + URL_FB + '" target="_blank"><img src="' + ICON_FB + '" alt="Facebook" width="28" height="28" style="display:block;border:0;" /></a></td>' +
+              '<td><a href="' + URL_IG + '" target="_blank"><img src="' + ICON_IG + '" alt="Instagram" width="28" height="28" style="display:block;border:0;" /></a></td>' +
+            '</tr></table>' +
+          '</td>' +
+        '</tr>' +
+      '</table>'
+    );
+  }
+
+  function updatePreview() {
+    document.getElementById('sig-preview').innerHTML = buildSignatureHtml();
+  }
+
+  function copyHtml() {
+    var html = buildSignatureHtml();
+    var btn = document.getElementById('copyHtmlBtn');
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(html).then(function() {
+        showCopied(btn);
+      }).catch(function() {
+        fallbackCopy(html, btn);
+      });
+    } else {
+      fallbackCopy(html, btn);
+    }
+  }
+
+  function fallbackCopy(text, btn) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try { document.execCommand('copy'); showCopied(btn); } catch(e) {}
+    document.body.removeChild(ta);
+  }
+
+  function showCopied(btn) {
+    var original = btn.innerHTML;
+    btn.innerHTML = '✓ Copied!';
+    btn.classList.add('success');
+    setTimeout(function() {
+      btn.innerHTML = original;
+      btn.classList.remove('success');
+    }, 2200);
+  }
+
+  function selectForGmail() {
+    var preview = document.getElementById('sig-preview');
+    var range = document.createRange();
+    range.selectNodeContents(preview);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+
+  // Render on load
+  updatePreview();
+</script>
+</body>
+</html>

@@ -29,29 +29,33 @@ function processIntroSentOnEdit(e) {
   if (row < CONFIG.SHEET.DATA_START_ROW) return;
 
   // ── Resolve required columns ─────────────────────────────
-  const firstNameCol = colMap[normalizeHeader(CONFIG.HEADERS.FIRST_NAME)];
-  const lastNameCol = colMap[normalizeHeader(CONFIG.HEADERS.LAST_NAME)];
-  const personalEmailCol =
-    colMap[normalizeHeader(CONFIG.HEADERS.PERSONAL_EMAIL)];
-  const emailStatusCol = colMap[normalizeHeader(CONFIG.HEADERS.REQUEST_STATUS)];
+  const firstNameCol    = colMap[normalizeHeader(CONFIG.HEADERS.FIRST_NAME)];
+  const lastNameCol     = colMap[normalizeHeader(CONFIG.HEADERS.LAST_NAME)];
+  const personalEmailCol = colMap[normalizeHeader(CONFIG.HEADERS.PERSONAL_EMAIL)];
+  const emailStatusCol  = colMap[normalizeHeader(CONFIG.HEADERS.REQUEST_STATUS)];
+  const roleCol         = colMap[normalizeHeader(CONFIG.HEADERS.ROLE)];
+  const witEmailCol     = colMap[normalizeHeader(CONFIG.HEADERS.WIT_EMAIL)];
 
   // ── Read row data ─────────────────────────────────────────
   const firstName = safeString(sheet.getRange(row, firstNameCol).getValue());
-  const lastName = safeString(sheet.getRange(row, lastNameCol).getValue());
+  const lastName  = safeString(sheet.getRange(row, lastNameCol).getValue());
   const personalEmail = safeString(
     sheet.getRange(row, personalEmailCol).getValue(),
   );
   const emailStatus = safeString(
     sheet.getRange(row, emailStatusCol).getValue(),
   ).toLowerCase();
+  const role     = safeString(sheet.getRange(row, roleCol).getValue());
+  const witEmail = safeString(sheet.getRange(row, witEmailCol).getValue());
   const fullName = `${firstName} ${lastName}`.trim();
 
-  // ── Guard: email must be created ─────────────────────────
-  if (emailStatus !== CONFIG.STATUS.CREATED) {
+  // ── Guard: email must be created or active ───────────────
+  const emailReady = emailStatus === CONFIG.STATUS.CREATED || emailStatus === CONFIG.STATUS.ACTIVE;
+  if (!emailReady) {
     sheet.getRange(row, introCol).setValue(false); // revert checkbox
     showAlert(
       "⚠️ Cannot send — email not ready",
-      `${fullName}'s Email Status is "${emailStatus}".\n\nSet Email Status to "created" before marking Intro sent.`,
+      `${fullName}'s Email Status is "${emailStatus}".\n\nSet Email Status to "created" or "active" before marking Intro sent.`,
     );
     return;
   }
@@ -88,7 +92,7 @@ function processIntroSentOnEdit(e) {
     MailApp.sendEmail({
       to: personalEmail,
       subject: "Welcome to Women in Tech Canada — Your Onboarding",
-      htmlBody: _buildOnboardingEmailHtml(firstName),
+      htmlBody: _buildOnboardingEmailHtml(firstName, lastName, role, witEmail),
       name: `Women in Tech Canada — ${CONFIG.EMAIL.OPS_LEAD_NAME}`,
     });
 
@@ -115,8 +119,13 @@ function processIntroSentOnEdit(e) {
 // Email template
 // ─────────────────────────────────────────────────────────────
 
-function _buildOnboardingEmailHtml(firstName) {
-  const checklistUrl = CONFIG.URLS.MEMBER_GUIDE;
+function _buildOnboardingEmailHtml(firstName, lastName, role, witEmail) {
+  const params = '&firstName=' + encodeURIComponent(firstName || '')
+    + '&lastName='  + encodeURIComponent(lastName  || '')
+    + '&role='      + encodeURIComponent(role      || '')
+    + '&witEmail='  + encodeURIComponent(witEmail  || '');
+  const checklistUrl  = CONFIG.URLS.MEMBER_GUIDE + '?' + params.slice(1);
+  const signatureUrl  = CONFIG.URLS.SIGNATURE_GENERATOR + params;
 
   return `
 <!DOCTYPE html>
@@ -153,13 +162,23 @@ function _buildOnboardingEmailHtml(firstName) {
                 To get started, please complete your onboarding using the interactive checklist below:
               </p>
 
-              <!-- CTA button -->
-              <table cellpadding="0" cellspacing="0" style="margin-bottom:32px;">
+              <!-- CTA buttons -->
+              <table cellpadding="0" cellspacing="0" style="margin-bottom:16px;">
                 <tr>
                   <td style="background:#1b4f8a;border-radius:6px;">
                     <a href="${checklistUrl}" target="_blank"
                        style="display:inline-block;padding:12px 28px;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
                       👉 Open Onboarding Checklist
+                    </a>
+                  </td>
+                </tr>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="margin-bottom:32px;">
+                <tr>
+                  <td style="background:#0f6e56;border-radius:6px;">
+                    <a href="${signatureUrl}" target="_blank"
+                       style="display:inline-block;padding:12px 28px;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
+                      ✍️ Create your email signature →
                     </a>
                   </td>
                 </tr>

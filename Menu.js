@@ -20,7 +20,9 @@ function onOpen() {
     .addSubMenu(ui.createMenu('⚙️ Actions')
       .addItem('Refresh Email Requests',         'buildEmailRequestsReport')
       .addItem('Refresh Photos & Bios',          'syncPhotosAndBios')
-      .addItem('Refresh Groups',                 'buildGroupsView'))
+      .addItem('Refresh Groups',                 'buildGroupsView')
+      .addSeparator()
+      .addItem('✍️ Create email signature',      'openSignatureGeneratorForRow'))
 
     .addSeparator()
 
@@ -116,4 +118,43 @@ function showPermissionAlert() {
     CONFIG.EMAIL.OPS_LEAD,
     SpreadsheetApp.getUi().ButtonSet.OK
   );
+}
+
+
+// ============================================================
+// Signature Generator
+// ============================================================
+
+function openSignatureGeneratorForRow() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+
+  if (sheet.getName() !== CONFIG.SHEET.MAIN) {
+    showAlert('Wrong sheet', 'Please select a row in the WIT_Members sheet first.');
+    return;
+  }
+
+  const row = sheet.getActiveRange().getRow();
+  if (row < CONFIG.SHEET.DATA_START_ROW) {
+    showAlert('No member selected', 'Please click on a member row first.');
+    return;
+  }
+
+  const colMap  = getColumnIndexMap(sheet);
+  const get     = (header) => safeString(sheet.getRange(row, colMap[normalizeHeader(header)]).getValue());
+
+  const firstName = get(CONFIG.HEADERS.FIRST_NAME);
+  const lastName  = get(CONFIG.HEADERS.LAST_NAME);
+  const role      = get(CONFIG.HEADERS.ROLE);
+  const witEmail  = get(CONFIG.HEADERS.WIT_EMAIL);
+
+  const url = CONFIG.URLS.SIGNATURE_GENERATOR
+    + '&firstName=' + encodeURIComponent(firstName)
+    + '&lastName='  + encodeURIComponent(lastName)
+    + '&role='      + encodeURIComponent(role)
+    + '&witEmail='  + encodeURIComponent(witEmail);
+
+  const html = HtmlService
+    .createHtmlOutput('<script>window.open("' + url + '","_blank");google.script.host.close();</script>')
+    .setWidth(1).setHeight(1);
+  SpreadsheetApp.getUi().showModalDialog(html, 'Opening Signature Generator…');
 }
