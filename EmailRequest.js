@@ -41,7 +41,6 @@ function processEmailRequestOnEdit(e) {
   const lastNameCol    = colMap[normalizeHeader(CONFIG.HEADERS.LAST_NAME)];
   const roleCol        = colMap[normalizeHeader(CONFIG.HEADERS.ROLE)];
   const emailCol       = colMap[normalizeHeader(CONFIG.HEADERS.PERSONAL_EMAIL)];
-  const contractCol    = colMap[normalizeHeader(CONFIG.HEADERS.CONTRACT_STATUS)];
 
   if (!firstNameCol) throw new Error(`Column not found: ${CONFIG.HEADERS.FIRST_NAME}`);
   if (!lastNameCol)  throw new Error(`Column not found: ${CONFIG.HEADERS.LAST_NAME}`);
@@ -53,18 +52,6 @@ function processEmailRequestOnEdit(e) {
   const lastName       = sheet.getRange(row, lastNameCol).getValue();
   const personalEmail  = sheet.getRange(row, emailCol).getValue();
   const role           = sheet.getRange(row, roleCol).getValue();
-  const contractStatus = contractCol
-    ? safeString(sheet.getRange(row, contractCol).getValue()).toLowerCase()
-    : '';
-
-  // ── Reminder: contract should be signed first (SOP Step 3) ──
-  if (contractStatus !== CONFIG.CONTRACT.SIGNED) {
-    showAlert(
-      '📋 Reminder: Contract not signed',
-      `The contract hasn't been signed yet.\n\n` +
-      `Make sure the signed contract is uploaded to Drive and Contract Status is set to "signed" before the request is processed.`
-    );
-  }
 
   // ── Validate required fields ─────────────────────────────
   if (!firstName || !lastName || !personalEmail) {
@@ -89,7 +76,8 @@ function processEmailRequestOnEdit(e) {
       `Queue email creation request for:\n\n` +
       `Name:       ${fullName}\n` +
       `WIT Email:  ${WITEmail}\n\n` +
-      `Operations will be notified in the next Monday batch.`,
+      `Ops Lead will be notified immediately.\n` +
+      `Admin (Global Team) receives the batch email every Monday at 7 AM.`,
       ui.ButtonSet.YES_NO
     );
 
@@ -99,12 +87,28 @@ function processEmailRequestOnEdit(e) {
     }
   }
 
+  // ── Instant notification to Ops Lead ────────────────────
+  MailApp.sendEmail({
+    to:      CONFIG.EMAIL.OPS_LEAD,
+    subject: `[WIT Email Request] ${fullName}`,
+    body:
+      `Hi ${CONFIG.EMAIL.OPS_LEAD_NAME},\n\n` +
+      `A WIT email has been requested for a new member.\n\n` +
+      `Name:             ${fullName}\n` +
+      `Role:             ${role}\n` +
+      `Personal email:   ${personalEmail}\n` +
+      `Suggested email:  ${WITEmail}\n\n` +
+      `This member will also be included in the Monday batch report.\n\n` +
+      `— WIT Automation`,
+  });
+  Logger.log(`processEmailRequestOnEdit: instant notification sent to Ops Lead for ${fullName}.`);
+
   // ── Confirm queued ───────────────────────────────────────
   if (CONFIG.UI.ALERTS) {
     showAlert(
       '✅ Queued',
       `${fullName} has been queued for email creation.\n\n` +
-      `Operations will receive the request on Monday at 7 AM.\n\n` +
+      `Ops Lead has been notified. Admin (Global Team) will receive the batch email on Monday at 7 AM.\n\n` +
       `Your next step: select required Google Groups and set Add to Groups = requested.`
     );
   }

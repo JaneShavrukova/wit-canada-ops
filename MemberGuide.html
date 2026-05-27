@@ -500,7 +500,7 @@
         <div class="check-item" onclick="toggle(this)">
           <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           <div class="check-text">
-            <div class="check-label">Set up my Gmail email signature</div>
+            <div class="check-label">Set up my WIT email signature in Gmail</div>
             <div class="check-note">
               <a href="<?= signatureUrl ?>" target="_blank"
                  onclick="event.stopPropagation()"
@@ -540,13 +540,15 @@
           <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           <div class="check-text">
             <div class="check-label">Explore my channels and get familiar</div>
+            <div class="check-note">All team communication happens in Google Chat — async by default</div>
           </div>
         </div>
 
         <div class="check-item" onclick="toggle(this)">
           <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           <div class="check-text">
-            <div class="check-label">Confirm I can see the Shared Drive</div>
+            <div class="check-label">Check that I can see the Shared Drive</div>
+            <div class="check-note">All documents, resources, and shared files live in the Shared Drive</div>
           </div>
         </div>
 
@@ -567,19 +569,6 @@
           <div class="check-text">
             <div class="check-label">
               <a href="https://drive.google.com/file/d/19NNx6W6LsdGORuWOu8jXAv-4mI2eNWXl/view" target="_blank">Discover our mission and values</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="check-item" onclick="toggle(this)">
-          <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="check-text">
-            <div class="check-label">Fill in your personal info — LinkedIn, birthday, and phone</div>
-            <div class="check-note">
-              <a href="https://docs.google.com/forms/d/e/1FAIpQLSfw4HePeT3moc9RuFSx3wAgMfAFod7a4J5VVuHQM7aIePcuCA/viewform"
-                 target="_blank"
-                 onclick="event.stopPropagation()"
-                 style="color:var(--blue-md);text-decoration:none;font-style:normal;">Open Personal Info Form ↗</a>
             </div>
           </div>
         </div>
@@ -612,11 +601,24 @@
         </div>
       </div>
 
-      <!-- SECTION 4 — Say hello -->
+      <!-- SECTION 4 — Your profile -->
       <div class="section">
         <div class="section-header">
-          <div class="section-icon">👋</div>
-          <span class="section-title">Say hello</span>
+          <div class="section-icon">👤</div>
+          <span class="section-title">Your profile</span>
+        </div>
+
+        <div class="check-item" onclick="toggle(this)">
+          <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="check-text">
+            <div class="check-label">Fill in your personal info — LinkedIn, birthday, and phone</div>
+            <div class="check-note">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSfw4HePeT3moc9RuFSx3wAgMfAFod7a4J5VVuHQM7aIePcuCA/viewform"
+                 target="_blank"
+                 onclick="event.stopPropagation()"
+                 style="color:var(--blue-md);text-decoration:none;font-style:normal;">Open Personal Info Form ↗</a>
+            </div>
+          </div>
         </div>
 
         <div class="check-item" onclick="toggle(this)">
@@ -633,6 +635,14 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- SECTION 5 — Say hello -->
+      <div class="section">
+        <div class="section-header">
+          <div class="section-icon">👋</div>
+          <span class="section-title">Say hello</span>
+        </div>
 
         <div class="check-item" onclick="toggle(this)">
           <div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
@@ -645,48 +655,7 @@
         </div>
       </div>
 
-      <!-- SECTION 5 — Your tools -->
-      <div class="section">
-        <div class="section-header">
-          <div class="section-icon">🛠️</div>
-          <span class="section-title">Your tools</span>
-        </div>
-        <table class="tools-table">
-          <tr><td>Google Chat</td><td>Main team communication — async by default</td></tr>
-          <tr><td>Google Drive</td><td>Shared documents, resources, and files</td></tr>
-          <tr><td>Google Calendar</td><td>Events, meetings, and key dates</td></tr>
-          <tr><td>Google Meet</td><td>Video calls with your team</td></tr>
-        </table>
-      </div>
-
-      <!-- SECTION 6 — How we work -->
-      <div class="section">
-        <div class="section-header">
-          <div class="section-icon">⚙️</div>
-          <span class="section-title">How we work</span>
-        </div>
-        <div style="font-size:0.85rem;color:var(--muted);line-height:1.7;padding:0 0.25rem;">
-          <p>We communicate async via Google Chat — no need to be online all day.</p>
-          <p style="margin-top:0.4rem;">Some teams have regular sync calls — your lead will fill you in.</p>
-        </div>
-      </div>
-
-      <!-- PERSONAL CHECKLIST -->
-      <div class="personal-section" id="personal-section">
-        <div class="personal-header" onclick="togglePersonal()">
-          <div style="display:flex;align-items:center;gap:6px;">
-            <span class="personal-title">My checklist at a glance</span>
-            <span class="personal-acc-arrow">▼</span>
-          </div>
-          <button class="reset-btn" onclick="event.stopPropagation();resetAll()">Reset</button>
-        </div>
-        <div class="personal-body">
-          <p class="personal-note">This page saves your progress automatically. Tick each item as you go.</p>
-          <div id="mini-list" style="display:flex;flex-direction:column;gap:2px;"></div>
-        </div>
-      </div>
-
-      <div style="background:var(--blue-lt);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+<div style="background:var(--blue-lt);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;">
         <div>
           <p style="font-size:0.875rem;font-weight:500;color:var(--blue);margin-bottom:2px;">All done? Let the Ops Lead know.</p>
           <p style="font-size:0.8rem;color:var(--muted);">Send a quick message and we will mark you as active.</p>
@@ -710,30 +679,10 @@
     </div>
 
     <script>
-      const LABELS = [
-        "Sign my volunteer agreement",
-        "Check for WIT email activation link",
-        "Activate my WIT email",
-        "Confirm activation to Ops Lead",
-        "Set up Gmail signature",
-        "Open Google Chat with WIT email",
-        "Explore my channels",
-        "Confirm Shared Drive access",
-        "Read about why we're all here",
-        "Send LinkedIn & birthday to Ops Lead",
-        "Create WIT Hub profile",
-        "Follow WIT Canada on LinkedIn",
-        "Follow WIT Canada on Instagram",
-        "Add photo & bio to team folder",
-        "Introduce myself in [COMM] Community",
-      ];
-
-      const items   = document.querySelectorAll(".check-item");
-      const fillEl  = document.getElementById("progress-fill");
-      const pctEl   = document.getElementById("progress-pct");
-      const textEl  = document.getElementById("progress-text");
-      const banner  = document.getElementById("done-banner");
-      const miniList = document.getElementById("mini-list");
+      const items  = document.querySelectorAll(".check-item");
+      const fillEl = document.getElementById("progress-fill");
+      const pctEl  = document.getElementById("progress-pct");
+      const banner = document.getElementById("done-banner");
 
       const KEY = "wit_welcome_progress";
       let state = JSON.parse(localStorage.getItem(KEY) || "[]");
@@ -742,12 +691,6 @@
       function toggle(el) {
         const idx = [...items].indexOf(el);
         state[idx] = !state[idx];
-        save();
-        render();
-      }
-
-      function resetAll() {
-        state = new Array(items.length).fill(false);
         save();
         render();
       }
@@ -762,41 +705,9 @@
         const pct   = Math.round((done / total) * 100);
 
         items.forEach((el, i) => el.classList.toggle("done", state[i]));
-        fillEl.style.width  = pct + "%";
-        pctEl.textContent   = pct + "%";
-        if (textEl) textEl.textContent = done + " of " + total + " done";
+        fillEl.style.width = pct + "%";
+        pctEl.textContent  = pct + "%";
         banner.classList.toggle("visible", done === total);
-
-        miniList.innerHTML = "";
-        items.forEach((el, i) => {
-          const label = LABELS[i];
-          const row   = document.createElement("div");
-          row.style.cssText = "display:flex;align-items:center;gap:8px;padding:5px 4px;border-radius:6px;cursor:pointer;";
-          row.onclick = () => toggle(el);
-
-          const dot = document.createElement("div");
-          dot.style.cssText =
-            "width:14px;height:14px;border-radius:3px;flex-shrink:0;border:1.5px solid " +
-            (state[i] ? "#0F6E56" : "#d4d2cb") + ";background:" +
-            (state[i] ? "#0F6E56" : "white") +
-            ";display:flex;align-items:center;justify-content:center;transition:all .15s;";
-          if (state[i])
-            dot.innerHTML = '<svg width="8" height="6" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-
-          const txt = document.createElement("span");
-          txt.style.cssText =
-            "font-size:0.8rem;color:" + (state[i] ? "#9b9b8d" : "#1a1a1a") + ";" +
-            (state[i] ? "text-decoration:line-through;" : "");
-          txt.textContent = label;
-
-          row.appendChild(dot);
-          row.appendChild(txt);
-          miniList.appendChild(row);
-        });
-      }
-
-      function togglePersonal() {
-        document.getElementById("personal-section").classList.toggle("open");
       }
 
       render();
